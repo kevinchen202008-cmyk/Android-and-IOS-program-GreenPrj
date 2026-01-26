@@ -1,0 +1,15 @@
+# BMM Workflow Status
+# Tracks completion status of BMM workflows for GreenPrj project
+
+workflow_status:
+  product-brief: "_bmad-output/planning-artifacts/product-brief-GreenPrj-2026-01-26.md"
+  prd: "_bmad-output/planning-artifacts/prd.md"
+  ux-design: "_bmad-output/planning-artifacts/ux-design-specification.md"
+  architecture: "_bmad-output/planning-artifacts/architecture.md"
+  completion_date: "2026-01-26"
+  status: "completed"
+
+metadata:
+  project_name: "GreenPrj"
+  last_updated: "2026-01-26"
+  workflows_completed: 4

@@ -1,0 +1,39 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build outputs
+build/
+dist/
+*.apk
+*.aab
+*.ipa
+
+# Dependencies
+node_modules/
+.gradle/
+*.iml
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# BMAD output (keep planning artifacts)
+# _bmad-output/planning-artifacts/ is tracked
