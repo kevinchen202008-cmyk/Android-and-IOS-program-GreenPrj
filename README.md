@@ -4,6 +4,15 @@
 
 GreenPrj 是一个创新的全平台应用开发项目，采用 **BMAD 方法论**（Breakthrough Method for Agile AI-Driven Development）完成 Android、iOS、Windows/Linux 本地 Web 程序的开发实践。本项目覆盖移动端和桌面端全场景应用，记录了整个开发过程，展示了如何利用现代敏捷开发方法论有效地管理和实施复杂的多平台应用开发工作。
 
+在实际工程实践中，本项目对开发工具与平台规划做了以下约定：
+
+- **主力开发工具**：全仓库以 **Cursor** 作为主力 AI 驱动开发工具；
+- **Android 开发方式**：以 **Cursor + Android Studio** 组合方式进行开发与调试；
+- **Web 版本阶段规划**：
+  - 第一阶段：面向 **Windows / Linux** 的本地单机 Web 版本（当前主要交付形态）；
+  - 第二阶段：在架构上统一规划后端云服务，迁移为基于云后端的统一服务形态；
+- **iOS 版本规划**：iOS 端功能与实现整体归入第二阶段进行开发与落地。
+
 ### 核心特点
 
 项目采用 BMAD 方法论作为指导框架，这是一套突破性的 AI 驱动敏捷开发体系。通过 BMAD 方法论的应用，GreenPrj 具有以下特点：
@@ -107,13 +116,41 @@ Web 应用通过浏览器 API 实现权限管理，包括地理位置、摄像�
 
 | 平台 | 主要技术 | 开发语言 | 开发工具 |
 |-----|--------|--------|--------|
-| **iOS** | UIKit/SwiftUI、CocoaPods | Swift、Objective-C | Xcode |
-| **Android** | Android Framework、Gradle | Java、Kotlin | Android Studio |
-| **Web 前端** | React/Vue/Angular、NPM | TypeScript/JavaScript | VS Code、Webpack |
-| **Web 桌面** | Electron/Tauri | Node.js/Rust | VS Code、Cargo |
-| **后端服务** | Express/Spring Boot/FastAPI | Node.js/Java/Python | Docker、Kubernetes |
-| **数据库** | SQLite/PostgreSQL、Redis | SQL | pgAdmin、Adminer |
-| **共享层** | REST API、数据模型 | JSON Schema | Git |
+| **iOS** | UIKit/SwiftUI、CocoaPods | Swift、Objective-C | Cursor、Xcode |
+| **Android** | Android Framework、Gradle | Java、Kotlin | Cursor、Android Studio |
+| **Web 前端** | React/Vue/Angular、NPM | TypeScript/JavaScript | Cursor、VS Code、Webpack |
+| **Web 桌面** | Electron/Tauri | Node.js/Rust | Cursor、VS Code、Cargo |
+| **后端服务** | Express/Spring Boot/FastAPI | Node.js/Java/Python | Cursor、Docker、Kubernetes |
+| **数据库** | SQLite/PostgreSQL、Redis | SQL | Cursor、pgAdmin、Adminer |
+| **共享层** | REST API、数据模型 | JSON Schema | Cursor、Git |
+
+### Cursor 使用规范与推荐流程
+
+为充分发挥 AI 辅助开发能力，本项目在各平台统一约定使用 Cursor 的方式：
+
+- **通用原则**
+  - 以 Cursor 作为“主 IDE + AI 结对编程工具”，统一管理多平台仓库（Android、Web、后端等）；
+  - 通过对话方式驱动需求拆分、代码生成、重构和文档同步，确保 BMAD 方法论在工具层落地；
+  - 尽量将架构设计、接口约定、核心业务逻辑的讨论与变更记录在仓库内文档中，由 Cursor 协助维护一致性。
+
+- **Android 场景（Cursor + Android Studio）**
+  - 在 Cursor 中进行：业务代码编写、重构、单元测试、文档更新；
+  - 在 Android Studio 中进行：Gradle 配置、构建签名、模拟器/真机调试、布局预览等；
+  - 建议通过 Cursor 批量修改 Kotlin/Java 代码与资源，再在 Android Studio 中执行构建与运行。
+
+- **Web 场景**
+  - 使用 Cursor 作为主力前端开发环境：包括组件开发、状态管理、接口对接、单元测试等；
+  - 借助 Cursor 的代码搜索与重构能力，统一管理 Web 单机版本与未来云后端对接的适配层；
+  - 本地运行 `npm run dev` / `npm run build` 等命令时，可通过 Cursor 集成终端或系统终端执行。
+
+- **后端与数据库场景**
+  - 使用 Cursor 设计和实现 API、数据模型、迁移脚本，保持接口定义与前端类型的一致性；
+  - 通过 Cursor 对 SQL / 查询层进行审阅与重构，结合外部数据库工具（如 pgAdmin）完成联调与运维。
+
+- **最佳实践建议**
+  - 优先在 Cursor 中完成“需求 → 设计 → 实现 → 文档”的一体化闭环，减少信息分散；
+  - 大型重构或跨模块改动时，先在对话中约定改动范围和风险点，再让 Cursor 逐步实施；
+  - 重要决策（如架构调整、阶段规划）建议同步更新 README / 架构文档，并通过 Cursor 统一修改。
 
 ### 前端框架对比
 
