@@ -4,9 +4,8 @@
  */
 
 import { create } from 'zustand'
-import { downloadExportFile, exportAccountBook } from '@/services/merge/export-service'
+import { downloadExportFile } from '@/services/merge/export-service'
 import {
-  importAccountBook,
   parseImportFile,
   validateImportData,
   type MergeResult,
@@ -81,8 +80,24 @@ export const useMergeStore = create<MergeState>((set, get) => ({
 
     set({ isImporting: true, error: null })
     try {
-      const result = await importAccountBook(importPreview, options)
+      // Import from service (not recursive call)
+      const { importAccountBook: importService } = await import('@/services/merge/import-service')
+      const result = await importService(importPreview, options)
       set({ mergeResult: result, isImporting: false, importPreview: null })
+      
+      // Refresh statistics and budgets after import
+      import('@/stores/statistics-store').then(({ useStatisticsStore }) => {
+        const statsStore = useStatisticsStore.getState()
+        if (statsStore.summary) {
+          statsStore.refreshStatistics()
+        }
+      })
+      import('@/stores/budget-store').then(({ useBudgetStore }) => {
+        const budgetStore = useBudgetStore.getState()
+        if (budgetStore.monthlyStatus || budgetStore.yearlyStatus) {
+          budgetStore.loadBudgetStatuses()
+        }
+      })
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : '导入失败',

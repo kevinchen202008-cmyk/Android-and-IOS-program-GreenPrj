@@ -12,8 +12,6 @@ export interface Session {
   loginTime: number
   lastActivityTime: number
   expiresAt: number
-  // @ts-ignore - temporary for MVP encryption
-  password?: string // TODO: Remove in production, use secure key management
 }
 
 let sessionTimeoutId: NodeJS.Timeout | null = null

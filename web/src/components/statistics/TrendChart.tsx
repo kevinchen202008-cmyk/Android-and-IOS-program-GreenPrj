@@ -12,19 +12,8 @@ import {
 import { Paper, Typography, Box } from '@mui/material'
 import { useStatisticsStore } from '@/stores/statistics-store'
 
-const CATEGORY_LABELS: Record<string, string> = {
-  food: '餐饮',
-  transportation: '交通',
-  shopping: '购物',
-  entertainment: '娱乐',
-  housing: '住房',
-  healthcare: '医疗',
-  education: '教育',
-  other: '其他',
-}
-
 export function TrendChart() {
-  const { summary, selectedDimension } = useStatisticsStore()
+  const { summary } = useStatisticsStore()
 
   const chartData = useMemo(() => {
     if (!summary) return []

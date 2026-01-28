@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "exportedAt": "2026-01-28T12:00:00.000Z",
+  "data": {
+    "accounts": [
+      {
+        "id": "fixture-entry-1",
+        "amount": 88.5,
+        "date": "2026-01-15",
+        "category": "food",
+        "notes": "测试导入账目",
+        "createdAt": "2026-01-15T10:00:00.000Z",
+        "updatedAt": "2026-01-15T10:00:00.000Z"
+      },
+      {
+        "id": "fixture-entry-2",
+        "amount": 25,
+        "date": "2026-01-16",
+        "category": "transportation",
+        "notes": null,
+        "createdAt": "2026-01-16T09:00:00.000Z",
+        "updatedAt": "2026-01-16T09:00:00.000Z"
+      }
+    ],
+    "categories": [
+      { "id": "food", "name": "餐饮", "createdAt": "2026-01-01T00:00:00.000Z" },
+      { "id": "transportation", "name": "交通", "createdAt": "2026-01-01T00:00:00.000Z" }
+    ],
+    "budgets": [],
+    "operationLogs": []
+  }
+}

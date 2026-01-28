@@ -1,4 +1,4 @@
-import { Paper, Typography, Button, Box, Alert, Grid } from '@mui/material'
+import { Paper, Typography, Button, Alert, Grid } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useMergeStore } from '@/stores/merge-store'
 import { exportToCSV } from '@/services/data-management/csv-export-service'

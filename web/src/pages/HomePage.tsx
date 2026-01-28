@@ -7,7 +7,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 
 export function HomePage() {
   const navigate = useNavigate()
-  const { isAuthenticated } = useAuthStore()
+  useAuthStore()
 
   return (
     <Box>

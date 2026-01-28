@@ -17,6 +17,7 @@ import { StatisticsPage } from './pages/StatisticsPage'
 import { BudgetPage } from './pages/BudgetPage'
 import { MergePage } from './pages/MergePage'
 import { DataManagementPage } from './pages/DataManagementPage'
+import { OperationLogsPage } from './pages/OperationLogsPage'
 import { openDatabase, closeDatabase, handleDatabaseError } from './services/database'
 import { initializeSessionManager, setOnSessionExpired } from './services/auth/session-manager'
 import { useAuthStore } from './stores/auth-store'
@@ -243,6 +244,17 @@ function App() {
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
                     <DataManagementPage />
+                  </Box>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/operation-logs"
+              element={
+                <ProtectedRoute>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                    <AppBar />
+                    <OperationLogsPage />
                   </Box>
                 </ProtectedRoute>
               }

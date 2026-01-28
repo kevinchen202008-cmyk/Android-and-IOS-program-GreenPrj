@@ -78,15 +78,14 @@ export function validateCSVStructure(lines: string[][]): { valid: boolean; error
 
   // Check header
   const header = lines[0]
-  const expectedHeaders = ['日期', '金额', '类别', '备注']
-  
+
   if (header.length < 3) {
     return { valid: false, error: 'CSV文件格式不正确：缺少必要的列' }
   }
 
   // Check if headers match (flexible matching)
   const headerMap: Record<number, string> = {}
-  header.forEach((h, i) => {
+  header.forEach((h, _i) => {
     const normalized = h.trim().toLowerCase()
     if (normalized.includes('日期') || normalized.includes('date')) {
       headerMap[0] = h
@@ -136,7 +135,7 @@ function csvRowToEntry(row: string[], headerMap: Record<number, number>): {
     date = new Date(dateStr)
     if (isNaN(date.getTime())) {
       // Try Chinese date format (YYYY/MM/DD or YYYY-MM-DD)
-      const dateMatch = dateStr.match(/(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/)
+      const dateMatch = dateStr.match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/)
       if (dateMatch) {
         date = new Date(parseInt(dateMatch[1]), parseInt(dateMatch[2]) - 1, parseInt(dateMatch[3]))
       } else {

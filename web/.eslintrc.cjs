@@ -16,4 +16,17 @@ module.exports = {
     ],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
+  overrides: [
+    {
+      files: ['**/*.test.{ts,tsx}', '**/*.spec.ts', 'tests/**/*.{ts,tsx}'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
+    {
+      files: ['**/*.d.ts'],
+      rules: { 'no-var': 'off' },
+    },
+  ],
 }

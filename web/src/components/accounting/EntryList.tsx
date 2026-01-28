@@ -108,14 +108,6 @@ export function EntryList() {
     }
   }
 
-  const handleDateRangeFilter = () => {
-    if (startDate && endDate) {
-      filterByDateRange(startDate, endDate)
-    } else {
-      clearFilters()
-    }
-  }
-
   const handleClearFilters = () => {
     setSearchInput('')
     setCategoryFilter('')

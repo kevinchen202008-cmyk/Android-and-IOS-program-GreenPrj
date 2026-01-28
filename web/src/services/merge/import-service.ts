@@ -6,8 +6,9 @@
 import { createEntry } from '@/services/accounting/account-entry-service'
 import { createBudgetService } from '@/services/budget/budget-service'
 import { getAllEntries } from '@/services/accounting/account-entry-service'
-import type { ExportFormatSchema, AccountEntrySchema, BudgetSchema } from '@/types/schema'
+import type { ExportFormatSchema, AccountEntrySchema } from '@/types/schema'
 import type { CreateBudgetInput } from '@/types/budget'
+import { logSuccess, logFailure } from '@/services/audit'
 
 export interface DuplicateEntry {
   existing: AccountEntrySchema
@@ -187,9 +188,9 @@ export async function importAccountBook(
             const resolution = resolveConflicts(duplicate)
             if (resolution === 'keep-imported') {
               try {
-                // Delete existing entry first (if deleteEntry is available)
-                // For now, just create the imported entry
-                // The duplicate will be handled by the duplicate detection
+                // Delete existing entry first, then create imported entry
+                const { deleteEntry } = await import('@/services/accounting/account-entry-service')
+                await deleteEntry(duplicate.existing.id)
                 await createEntry({
                   amount: entry.amount,
                   date: entry.date,
@@ -201,7 +202,7 @@ export async function importAccountBook(
                 result.errors.push(`导入账目失败: ${error}`)
               }
             } else if (resolution === 'keep-both') {
-              // Create imported entry with modified ID
+              // Create imported entry (keep both existing and imported)
               try {
                 await createEntry({
                   amount: entry.amount,
@@ -258,6 +259,22 @@ export async function importAccountBook(
         result.errors.push(`导入预算失败: ${error}`)
       }
     }
+  }
+
+  // Log operation
+  if (result.errors.length === 0) {
+    await logSuccess(
+      '导入数据',
+      'IMPORT_DATA',
+      `导入账本数据: ${result.imported}条账目, ${result.duplicates}条重复, ${data.data.budgets?.length || 0}条预算`
+    )
+  } else {
+    await logFailure(
+      '导入数据',
+      'IMPORT_DATA',
+      `导入账本数据部分失败: ${result.imported}条成功, ${result.errors.length}条错误`,
+      result.errors.join('; ')
+    )
   }
 
   return result

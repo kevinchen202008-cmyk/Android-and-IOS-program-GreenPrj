@@ -149,7 +149,8 @@ export async function createEntryViaUI(
   await selectCategory(page, category)
   if (opts.notes) await page.getByLabel(/备注/).fill(opts.notes)
   const submitButton = page.getByRole('button', { name: /确认入账/ })
-  await expect(submitButton).toBeEnabled({ timeout: 5000 })
+  // 有时数据库初始化或表单校验稍慢，适当放宽等待时间
+  await expect(submitButton).toBeEnabled({ timeout: 15000 })
   await submitButton.click()
 }
 

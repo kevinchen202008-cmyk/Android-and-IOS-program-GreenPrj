@@ -31,7 +31,7 @@ export function CategoryList() {
         类别统计
       </Typography>
       <List>
-        {summary.categoryStatistics.map((stat, index) => (
+        {summary.categoryStatistics.map((stat, _index) => (
           <ListItem key={stat.category}>
             <ListItemText
               primary={

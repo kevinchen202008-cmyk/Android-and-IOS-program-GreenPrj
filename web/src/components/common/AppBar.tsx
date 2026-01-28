@@ -17,6 +17,7 @@ export function AppBar() {
   const isBudgetPage = location.pathname.startsWith('/budget')
   const isMergePage = location.pathname.startsWith('/merge')
   const isDataManagementPage = location.pathname.startsWith('/data-management')
+  const isOperationLogsPage = location.pathname.startsWith('/operation-logs')
 
   return (
     <MuiAppBar position="static">
@@ -53,6 +54,11 @@ export function AppBar() {
           {!isDataManagementPage && (
             <Button color="inherit" onClick={() => navigate('/data-management')} sx={{ mr: 1 }}>
               数据
+            </Button>
+          )}
+          {!isOperationLogsPage && (
+            <Button color="inherit" onClick={() => navigate('/operation-logs')} sx={{ mr: 1 }}>
+              日志
             </Button>
           )}
           <Button color="inherit" onClick={() => navigate('/change-password')} sx={{ mr: 1 }}>

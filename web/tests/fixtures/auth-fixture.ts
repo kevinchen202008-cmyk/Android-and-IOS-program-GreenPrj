@@ -6,6 +6,7 @@
 import { getDatabase } from '@/services/database'
 import { hashPassword } from '@/services/security'
 import { createSession } from '@/services/auth/session-manager'
+import { setEncryptionPassword, clearEncryptionPassword } from '@/services/security/encryption-session'
 
 const TEST_PASSWORD = 'TestPassword123!'
 
@@ -23,11 +24,9 @@ export async function setupTestUser(): Promise<void> {
  */
 export async function setupAuthenticatedSession(): Promise<void> {
   await setupTestUser()
-  const session = createSession('test-user')
-  // Store password in session for encryption (MVP approach)
-  // @ts-ignore - temporary storage for MVP encryption
-  session.password = TEST_PASSWORD
-  localStorage.setItem('greenprj_session', JSON.stringify(session))
+  createSession('test-user')
+  // 为测试环境设置内存中的加密口令，避免在 session/localStorage 中存明文密码
+  setEncryptionPassword(TEST_PASSWORD)
 }
 
 /**
@@ -39,6 +38,7 @@ export async function teardownAuth(): Promise<void> {
   
   // Clear session from localStorage
   localStorage.removeItem('greenprj_session')
+  clearEncryptionPassword()
 }
 
 /**

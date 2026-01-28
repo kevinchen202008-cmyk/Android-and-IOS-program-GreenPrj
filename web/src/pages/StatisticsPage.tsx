@@ -10,7 +10,6 @@ import {
   CircularProgress,
   Button,
   TextField,
-  Grid,
 } from '@mui/material'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import { useStatisticsStore } from '@/stores/statistics-store'
@@ -44,7 +43,6 @@ function TabPanel(props: TabPanelProps) {
 
 export function StatisticsPage() {
   const {
-    summary,
     isLoading,
     error,
     selectedDimension,

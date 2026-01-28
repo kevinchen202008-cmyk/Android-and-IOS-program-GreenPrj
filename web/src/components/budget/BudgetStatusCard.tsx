@@ -1,5 +1,4 @@
 import { Paper, Typography, Box, LinearProgress, Alert, Chip } from '@mui/material'
-import { useBudgetStore } from '@/stores/budget-store'
 import type { BudgetStatus } from '@/types/budget'
 import WarningIcon from '@mui/icons-material/Warning'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'

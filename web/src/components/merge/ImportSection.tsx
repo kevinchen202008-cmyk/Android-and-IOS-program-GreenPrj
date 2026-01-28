@@ -5,7 +5,6 @@ import {
   Button,
   Box,
   Alert,
-  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -28,11 +27,9 @@ export function ImportSection() {
     error,
     previewImport,
     importAccountBook,
-    clearPreview,
     clearError,
   } = useMergeStore()
 
-  const [fileContent, setFileContent] = useState<string>('')
   const [conflictDialogOpen, setConflictDialogOpen] = useState(false)
   const [conflicts, setConflicts] = useState<DuplicateEntry[]>([])
   const [conflictResolutions, setConflictResolutions] = useState<
@@ -46,7 +43,6 @@ export function ImportSection() {
 
     try {
       const content = await file.text()
-      setFileContent(content)
       await previewImport(content)
     } catch (error) {
       clearError()

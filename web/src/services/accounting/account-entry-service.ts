@@ -6,6 +6,7 @@
 import { accountEntryRepository } from '@/repositories/account-entry-repository'
 import type { AccountEntrySchema } from '@/types/schema'
 import { validateAccountEntry } from '@/utils/schema-validator'
+import { logSuccess, logFailure } from '@/services/audit'
 
 export interface CreateEntryInput {
   amount: number
@@ -48,19 +49,37 @@ function validateEntryInput(input: CreateEntryInput): void {
  * Create a new account entry
  */
 export async function createEntry(input: CreateEntryInput): Promise<AccountEntrySchema> {
-  validateEntryInput(input)
+  try {
+    validateEntryInput(input)
 
-  const entry = await accountEntryRepository.createEntry({
-    amount: input.amount,
-    date: input.date,
-    category: input.category.trim(),
-    notes: input.notes?.trim() || null,
-  })
+    const entry = await accountEntryRepository.createEntry({
+      amount: input.amount,
+      date: input.date,
+      category: input.category.trim(),
+      notes: input.notes?.trim() || null,
+    })
 
-  // Validate created entry
-  validateAccountEntry(entry)
+    // Validate created entry
+    validateAccountEntry(entry)
 
-  return entry
+    // Log operation
+    await logSuccess(
+      '创建账目',
+      'CREATE_ENTRY',
+      `创建账目: ¥${entry.amount}, ${entry.category}, ${entry.date}`
+    )
+
+    return entry
+  } catch (error) {
+    // Log failure
+    await logFailure(
+      '创建账目',
+      'CREATE_ENTRY',
+      `创建账目失败: ${input.amount}, ${input.category}`,
+      error instanceof Error ? error.message : String(error)
+    )
+    throw error
+  }
 }
 
 /**
@@ -104,17 +123,58 @@ export async function updateEntry(id: string, updates: UpdateEntryInput): Promis
   if (updates.category !== undefined) repoUpdates.category = updates.category.trim()
   if (updates.notes !== undefined) repoUpdates.notes = updates.notes.trim() || null
 
-  const updated = await accountEntryRepository.updateEntry(id, repoUpdates)
+  try {
+    const updated = await accountEntryRepository.updateEntry(id, repoUpdates)
+    validateAccountEntry(updated)
 
-  validateAccountEntry(updated)
-  return updated
+    // Log operation
+    await logSuccess(
+      '更新账目',
+      'UPDATE_ENTRY',
+      `更新账目 ${id}: ${JSON.stringify(updates)}`
+    )
+
+    return updated
+  } catch (error) {
+    // Log failure
+    await logFailure(
+      '更新账目',
+      'UPDATE_ENTRY',
+      `更新账目失败: ${id}`,
+      error instanceof Error ? error.message : String(error)
+    )
+    throw error
+  }
 }
 
 /**
  * Delete account entry
  */
 export async function deleteEntry(id: string): Promise<void> {
-  await accountEntryRepository.deleteEntry(id)
+  try {
+    // Get entry info before deletion for logging
+    const entry = await accountEntryRepository.getEntryById(id)
+    
+    await accountEntryRepository.deleteEntry(id)
+
+    // Log operation
+    if (entry) {
+      await logSuccess(
+        '删除账目',
+        'DELETE_ENTRY',
+        `删除账目: ¥${entry.amount}, ${entry.category}, ${entry.date}`
+      )
+    }
+  } catch (error) {
+    // Log failure
+    await logFailure(
+      '删除账目',
+      'DELETE_ENTRY',
+      `删除账目失败: ${id}`,
+      error instanceof Error ? error.message : String(error)
+    )
+    throw error
+  }
 }
 
 /**

@@ -34,13 +34,13 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
-  /* Use system Chrome (no need to install Chromium) */
+  /* Use system Chrome locally; bundled Chromium in CI */
   projects: [
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        channel: 'chrome', // Use system Chrome instead of bundled Chromium
+        ...(process.env.CI ? {} : { channel: 'chrome' }),
       },
     },
   ],

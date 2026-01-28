@@ -90,7 +90,7 @@ export async function openDatabase(): Promise<IDBPDatabase<GreenPrjDBSchema>> {
 
   try {
     dbInstance = await openDB<GreenPrjDBSchema>(DB_NAME, DB_VERSION, {
-      upgrade(db, oldVersion, newVersion, transaction) {
+      upgrade(db, oldVersion, newVersion, _transaction) {
         console.log(`Upgrading database from version ${oldVersion} to ${newVersion}`)
 
         // Create object stores if they don't exist

@@ -5,10 +5,10 @@
 
 import { hashPassword, verifyPassword } from '../security'
 import { createSession, clearSession, getSession } from './session-manager'
+import { setEncryptionPassword, clearEncryptionPassword } from '../security/encryption-session'
 import { validatePasswordStrength, passwordsMatch } from '@/utils/password-validator'
 import { getDatabase } from '../database'
-
-const PASSWORD_STORAGE_KEY = 'greenprj_password_hash'
+import { logSuccess } from '@/services/audit'
 
 /**
  * Check if password is set
@@ -50,11 +50,9 @@ export async function setPassword(password: string, confirmPassword: string): Pr
   const db = await getDatabase()
   await db.put('settings', passwordHash, 'password_hash')
 
-  // Create session with password for encryption (temporary for MVP)
-  const session = createSession('user')
-  // @ts-ignore - temporary storage for MVP encryption
-  session.password = password
-  localStorage.setItem('greenprj_session', JSON.stringify(session))
+  // 创建会话并在内存中保存加密口令（不写入 localStorage）
+  createSession('user')
+  setEncryptionPassword(password)
 }
 
 /**
@@ -77,8 +75,9 @@ export async function login(password: string): Promise<void> {
     throw new Error('密码错误')
   }
 
-  // Create session
+  // Create session and set in-memory encryption password
   createSession('user')
+  setEncryptionPassword(password)
 }
 
 /**
@@ -123,8 +122,12 @@ export async function changePassword(
   // Update password hash
   await db.put('settings', newPasswordHash, 'password_hash')
 
+  // Log operation
+  await logSuccess('修改密码', 'CHANGE_PASSWORD', '用户修改了密码')
+
   // Clear session (user needs to login again)
   clearSession()
+  clearEncryptionPassword()
 }
 
 /**
@@ -132,6 +135,7 @@ export async function changePassword(
  */
 export function logout(): void {
   clearSession()
+  clearEncryptionPassword()
 }
 
 /**

@@ -1,4 +1,4 @@
-import { Container, Box, Typography, Grid } from '@mui/material'
+import { Container, Typography, Grid } from '@mui/material'
 import { ExportSection } from '@/components/merge/ExportSection'
 import { ImportSection } from '@/components/merge/ImportSection'
 

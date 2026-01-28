@@ -16,6 +16,7 @@ import { getAllEntries } from '@/services/accounting/account-entry-service'
 import type { BudgetSchema } from '@/types/schema'
 import type { CreateBudgetInput, UpdateBudgetInput, BudgetStatus } from '@/types/budget'
 import { startOfMonth, endOfMonth, startOfYear, endOfYear, isWithinInterval } from 'date-fns'
+import { logSuccess, logFailure } from '@/services/audit'
 
 /**
  * Validate budget input
@@ -58,7 +59,23 @@ export async function createBudgetService(input: CreateBudgetInput): Promise<Bud
     }
   }
 
-  return await createBudget(input)
+  try {
+    const budget = await createBudget(input)
+    await logSuccess(
+      '创建预算',
+      'CREATE_BUDGET',
+      `创建${input.type === 'monthly' ? '月度' : '年度'}预算: ¥${input.amount}, ${input.year}年${input.month ? `${input.month}月` : ''}`
+    )
+    return budget
+  } catch (error) {
+    await logFailure(
+      '创建预算',
+      'CREATE_BUDGET',
+      `创建预算失败: ${input.type}, ${input.year}`,
+      error instanceof Error ? error.message : String(error)
+    )
+    throw error
+  }
 }
 
 /**
@@ -104,14 +121,48 @@ export async function updateBudgetService(id: string, input: UpdateBudgetInput):
     throw new Error('预算金额必须大于0')
   }
 
-  return await updateBudget(id, input)
+  try {
+    const budget = await updateBudget(id, input)
+    await logSuccess(
+      '更新预算',
+      'UPDATE_BUDGET',
+      `更新预算 ${id}: ¥${input.amount}`
+    )
+    return budget
+  } catch (error) {
+    await logFailure(
+      '更新预算',
+      'UPDATE_BUDGET',
+      `更新预算失败: ${id}`,
+      error instanceof Error ? error.message : String(error)
+    )
+    throw error
+  }
 }
 
 /**
  * Delete budget
  */
 export async function deleteBudgetService(id: string): Promise<void> {
-  return await deleteBudget(id)
+  try {
+    const budget = await getBudgetById(id)
+    await deleteBudget(id)
+    if (budget) {
+      await logSuccess(
+        '删除预算',
+        'DELETE_BUDGET',
+        `删除预算: ¥${budget.amount}, ${budget.year}年${budget.month ? `${budget.month}月` : ''}`
+      )
+    }
+  } catch (error) {
+    await logFailure(
+      '删除预算',
+      'DELETE_BUDGET',
+      `删除预算失败: ${id}`,
+      error instanceof Error ? error.message : String(error)
+    )
+    throw error
+  }
 }
 
 /**

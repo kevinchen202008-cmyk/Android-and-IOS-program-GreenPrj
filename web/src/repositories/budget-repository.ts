@@ -5,25 +5,17 @@
 
 import { getDatabase } from '@/services/database'
 import { encryptData, decryptData } from '@/services/security/encryption'
-import { getSession } from '@/services/auth/session-manager'
+import { getEncryptionPassword } from '@/services/security/encryption-session'
 import type { BudgetSchema } from '@/types/schema'
 import type { CreateBudgetInput, UpdateBudgetInput } from '@/types/budget'
 
 /**
- * Get user password for encryption
- * Note: For MVP, we'll store password in session temporarily
+ * 获取用于加密的会话口令（仅保存在内存中）
  */
 async function getUserPassword(): Promise<string> {
-  const session = getSession()
-  if (!session) {
-    throw new Error('User not authenticated')
-  }
-  
-  // For MVP: Password is stored in session temporarily after login
-  // @ts-ignore - temporary storage for MVP
-  const password = session.password
+  const password = getEncryptionPassword()
   if (!password) {
-    throw new Error('Password not available for encryption')
+    throw new Error('Encryption password not available')
   }
   return password
 }

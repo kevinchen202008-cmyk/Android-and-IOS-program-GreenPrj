@@ -5,7 +5,6 @@
 
 import { create } from 'zustand'
 import { setPassword, login, changePassword, logout, isPasswordSet, isAuthenticated } from '@/services/auth'
-import { getSession } from '@/services/auth/session-manager'
 
 interface AuthState {
   isAuthenticated: boolean

@@ -80,6 +80,22 @@ export const useAccountingStore = create<AccountingState>((set, get) => ({
         entries: [newEntry, ...state.entries], // Add to beginning (newest first)
         isLoading: false,
       }))
+      
+      // Notify other stores to refresh (real-time update)
+      // Use dynamic import to avoid circular dependencies
+      import('@/stores/statistics-store').then(({ useStatisticsStore }) => {
+        const statsStore = useStatisticsStore.getState()
+        if (statsStore.summary) {
+          statsStore.refreshStatistics()
+        }
+      })
+      import('@/stores/budget-store').then(({ useBudgetStore }) => {
+        const budgetStore = useBudgetStore.getState()
+        if (budgetStore.monthlyStatus || budgetStore.yearlyStatus) {
+          budgetStore.loadBudgetStatuses()
+        }
+      })
+      
       return newEntry
     } catch (error) {
       set({
@@ -98,6 +114,20 @@ export const useAccountingStore = create<AccountingState>((set, get) => ({
         entries: state.entries.map((e) => (e.id === id ? updated : e)),
         isLoading: false,
       }))
+      
+      // Notify other stores to refresh (real-time update)
+      import('@/stores/statistics-store').then(({ useStatisticsStore }) => {
+        const statsStore = useStatisticsStore.getState()
+        if (statsStore.summary) {
+          statsStore.refreshStatistics()
+        }
+      })
+      import('@/stores/budget-store').then(({ useBudgetStore }) => {
+        const budgetStore = useBudgetStore.getState()
+        if (budgetStore.monthlyStatus || budgetStore.yearlyStatus) {
+          budgetStore.loadBudgetStatuses()
+        }
+      })
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : '更新账目失败',
@@ -115,6 +145,20 @@ export const useAccountingStore = create<AccountingState>((set, get) => ({
         entries: state.entries.filter((e) => e.id !== id),
         isLoading: false,
       }))
+      
+      // Notify other stores to refresh (real-time update)
+      import('@/stores/statistics-store').then(({ useStatisticsStore }) => {
+        const statsStore = useStatisticsStore.getState()
+        if (statsStore.summary) {
+          statsStore.refreshStatistics()
+        }
+      })
+      import('@/stores/budget-store').then(({ useBudgetStore }) => {
+        const budgetStore = useBudgetStore.getState()
+        if (budgetStore.monthlyStatus || budgetStore.yearlyStatus) {
+          budgetStore.loadBudgetStatuses()
+        }
+      })
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : '删除账目失败',

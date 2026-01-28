@@ -28,8 +28,8 @@ export function startVoiceRecognition(
     return null
   }
 
-  const SpeechRecognition =
-    (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
   const recognition = new SpeechRecognition()
 
   recognition.lang = 'zh-CN'

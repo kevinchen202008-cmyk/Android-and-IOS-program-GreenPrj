@@ -6,12 +6,8 @@
 import { create } from 'zustand'
 import {
   getStatisticsSummary,
-  getTimeStatistics,
-  getCategoryStatistics,
   type TimeDimension,
   type StatisticsSummary,
-  type TimeStatistics,
-  type CategoryStatistics,
 } from '@/services/statistics/statistics-service'
 
 interface StatisticsState {

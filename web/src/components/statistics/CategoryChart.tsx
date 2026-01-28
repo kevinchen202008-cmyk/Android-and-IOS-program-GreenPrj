@@ -83,13 +83,13 @@ export function CategoryChart() {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {chartData.map((entry, index) => (
+                {chartData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip
-                formatter={(value: number, name: string, props: any) => [
-                  `¥${value.toFixed(2)} (${props.payload.percentage.toFixed(1)}%)`,
+                formatter={(value: number, name: string, props: { payload?: { percentage?: number } }) => [
+                  `¥${value.toFixed(2)} (${(props.payload?.percentage ?? 0).toFixed(1)}%)`,
                   name,
                 ]}
               />
@@ -100,14 +100,14 @@ export function CategoryChart() {
               <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
               <YAxis />
               <Tooltip
-                formatter={(value: number, name: string, props: any) => [
-                  `¥${value.toFixed(2)} (${props.payload.percentage.toFixed(1)}%)`,
+                formatter={(value: number, _name: string, props: { payload?: { percentage?: number } }) => [
+                  `¥${value.toFixed(2)} (${(props.payload?.percentage ?? 0).toFixed(1)}%)`,
                   '消费金额',
                 ]}
               />
               <Legend />
               <Bar dataKey="value" fill="#1976d2" name="消费金额">
-                {chartData.map((entry, index) => (
+                {chartData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Bar>

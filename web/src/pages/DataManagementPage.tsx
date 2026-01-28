@@ -1,4 +1,4 @@
-import { Container, Box, Typography, Grid, Divider } from '@mui/material'
+import { Container, Typography, Grid, Divider } from '@mui/material'
 import { DataExportSection } from '@/components/data-management/DataExportSection'
 import { DataImportSection } from '@/components/data-management/DataImportSection'
 import { DataDeletionSection } from '@/components/data-management/DataDeletionSection'

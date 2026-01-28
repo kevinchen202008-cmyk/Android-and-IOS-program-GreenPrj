@@ -6,14 +6,12 @@
 import { create } from 'zustand'
 import {
   createBudgetService,
-  getBudgetByIdService,
   getCurrentMonthlyBudget,
   getCurrentYearlyBudget,
   getAllBudgetsService,
   updateBudgetService,
   deleteBudgetService,
   getCurrentBudgetStatuses,
-  getBudgetStatus,
 } from '@/services/budget/budget-service'
 import type { BudgetSchema } from '@/types/schema'
 import type { CreateBudgetInput, UpdateBudgetInput, BudgetStatus } from '@/types/budget'
@@ -97,7 +95,7 @@ export const useBudgetStore = create<BudgetState>((set, get) => ({
   createBudget: async (input: CreateBudgetInput) => {
     set({ isLoading: true, error: null })
     try {
-      const newBudget = await createBudgetService(input)
+      await createBudgetService(input)
       await get().refreshBudgets()
       set({ isLoading: false })
     } catch (error) {

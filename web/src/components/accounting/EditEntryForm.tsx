@@ -27,7 +27,7 @@ const CATEGORIES = [
 export function EditEntryForm() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { entries, updateExistingEntry, isLoading, error, clearError, loadEntries } = useAccountingStore()
+  const { updateExistingEntry, isLoading, error, clearError, loadEntries } = useAccountingStore()
 
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState('')
@@ -37,7 +37,42 @@ export function EditEntryForm() {
 
   useEffect(() => {
     if (!id) return
-\n+    let isCancelled = false\n+\n+    const loadEntry = async () => {\n+      try {\n+        // Load entries into the store\n+        await loadEntries(0)\n+        if (isCancelled) return\n+\n+        const { entries: currentEntries } = useAccountingStore.getState()\n+        const entry = currentEntries.find((e) => e.id === id)\n+\n+        if (entry) {\n+          setAmount(entry.amount.toString())\n+          setDate(entry.date.split('T')[0])\n+          setCategory(entry.category)\n+          setNotes(entry.notes || '')\n+          setLoading(false)\n+        } else {\n+          setLoading(false)\n+          // Entry not found, redirect to list\n+          navigate('/accounting')\n+        }\n+      } catch {\n+        if (!isCancelled) {\n+          setLoading(false)\n+        }\n+      }\n+    }\n+\n+    loadEntry()\n+\n+    return () => {\n+      isCancelled = true\n+    }\n+  }, [id, loadEntries, navigate])
+
+    let isCancelled = false
+
+    const loadEntry = async () => {
+      try {
+        // 加载列表到 store 中，确保可以在最新状态里找到要编辑的记录
+        await loadEntries(0)
+        if (isCancelled) return
+
+        const { entries: currentEntries } = useAccountingStore.getState()
+        const entry = currentEntries.find((e) => e.id === id)
+
+        if (entry) {
+          setAmount(entry.amount.toString())
+          setDate(entry.date.split('T')[0])
+          setCategory(entry.category)
+          setNotes(entry.notes || '')
+          setLoading(false)
+        } else {
+          setLoading(false)
+          // 找不到记录时返回列表，避免界面一直空白
+          navigate('/accounting')
+        }
+      } catch {
+        if (!isCancelled) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadEntry()
+
+    return () => {
+      isCancelled = true
+    }
+  }, [id, loadEntries, navigate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

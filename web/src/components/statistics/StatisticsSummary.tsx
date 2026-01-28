@@ -1,4 +1,4 @@
-import { Paper, Grid, Typography, Box, Chip } from '@mui/material'
+import { Paper, Grid, Typography } from '@mui/material'
 import { useStatisticsStore } from '@/stores/statistics-store'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'

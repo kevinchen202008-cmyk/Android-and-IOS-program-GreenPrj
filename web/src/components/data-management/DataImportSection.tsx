@@ -34,7 +34,6 @@ export function DataImportSection({ onImportComplete }: DataImportSectionProps) 
     error,
     previewImport,
     importAccountBook,
-    clearPreview,
     clearError,
   } = useMergeStore()
 

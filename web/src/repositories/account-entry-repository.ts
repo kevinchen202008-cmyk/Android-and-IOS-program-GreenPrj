@@ -5,29 +5,19 @@
 
 import { getDatabase } from '@/services/database'
 import { encryptData, decryptData } from '@/services/security'
-import { getSession } from '@/services/auth/session-manager'
+import { getEncryptionPassword } from '@/services/security/encryption-session'
 import { generateId, getCurrentTimestamp } from '@/utils/database-helpers'
 import type { AccountEntrySchema } from '@/types/schema'
 
 /**
- * Get user password for encryption
- * Note: For MVP, we'll store password in session temporarily
- * In production, this should use a more secure key management system
- * TODO: Implement secure password/key management
+ * 获取用于加密的会话口令
+ * 从内存中的 encryption-session 获取，而不是从 session/localStorage 读取明文密码。
  */
 async function getUserPassword(): Promise<string> {
-  const session = getSession()
-  if (!session) {
-    throw new Error('User not authenticated')
-  }
-  
-  // For MVP: Password is stored in session temporarily after login
-  // This is not ideal for production - should use secure key storage
-  // @ts-ignore - temporary storage for MVP
-  const password = session.password
+  const password = getEncryptionPassword()
   if (!password) {
-    // For now, throw error - encryption will be implemented in next phase
-    throw new Error('Password not available for encryption - encryption will be implemented in Repository layer')
+    // 保持与之前逻辑兼容：抛出错误，外层会走到「加密不可用，按明文存储」的 fallback。
+    throw new Error('Encryption password not available')
   }
   return password
 }
@@ -131,12 +121,9 @@ export class AccountEntryRepository {
       try {
         if (rawEntry && 'encrypted' in rawEntry && 'salt' in rawEntry && 'iv' in rawEntry) {
           const password = await getUserPassword()
+          const enc = rawEntry as { encrypted: string; salt: string; iv: string }
           const decrypted = await decryptData(
-            {
-              encrypted: (rawEntry as any).encrypted,
-              salt: (rawEntry as any).salt,
-              iv: (rawEntry as any).iv,
-            },
+            { encrypted: enc.encrypted, salt: enc.salt, iv: enc.iv },
             password
           )
           entries.push(JSON.parse(decrypted) as AccountEntrySchema)
