@@ -10,7 +10,7 @@
 
 ### CI/CD
 - 新增 **GitHub Actions CI** (`.github/workflows/ci.yml`)
-  - **lint-and-test**: `npm run lint` → `vitest run`（排除 E2E）→ `vite build`
+  - **lint-and-test**: `npm run lint` → `vitest run`（排除 E2E）→ `npm run build`（`tsc && vite build`）
   - **e2e**: 安装 Chromium → `npm run test:e2e`
 - Playwright 在 CI 下使用捆绑 Chromium；本地仍可用系统 Chrome。
 
@@ -45,9 +45,8 @@
 
 ## 3. 建议后续改进
 
-- **TypeScript 严格检查**  
-  `tsc` 仍有多处报错（如 `notes`/`month` 的 `null` vs `undefined`、schema 断言、`NodeJS` 命名空间等）。  
-  建议：在修复这些类型后，将 CI 中的 `npx vite build` 恢复为 `npm run build`（`tsc && vite build`）。
+- **TypeScript 严格检查** ✅  
+  已修复并通过 `tsc --noEmit`。CI 已从 `vite build` 恢复为 `npm run build`（`tsc && vite build`）。
 
 - **构建与分包**  
   `vite build` 提示部分 chunk > 500KB，可考虑对路由或大依赖做 `manualChunks` 或动态 `import()` 优化。
@@ -62,6 +61,6 @@
 
 - CI 配置：`.github/workflows/ci.yml`  
 - ESLint 配置：`web/.eslintrc.cjs`（含 overrides）  
-- 测试说明：`web/tests/README.md`、`_bmad-output/test-generation-summary.md`
+- 测试说明：`web/tests/README.md`、`_bmad-output/test-generation-summary-2026-01-28--13.md`
 
 **状态**: 审查完成，建议按上述后续项迭代。

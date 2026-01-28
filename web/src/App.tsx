@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Container, Box, CircularProgress } from '@mui/material'
 import { AppBar } from './components/common/AppBar'
@@ -10,20 +10,50 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import { EntryList } from './components/accounting/EntryList'
 import { CreateEntryForm } from './components/accounting/CreateEntryForm'
 import { EditEntryForm } from './components/accounting/EditEntryForm'
-import { InvoiceScanForm } from './components/accounting/InvoiceScanForm'
-import { VoiceInputForm } from './components/accounting/VoiceInputForm'
 import { SMSInputForm } from './components/accounting/SMSInputForm'
-import { StatisticsPage } from './pages/StatisticsPage'
-import { BudgetPage } from './pages/BudgetPage'
-import { MergePage } from './pages/MergePage'
-import { DataManagementPage } from './pages/DataManagementPage'
-import { OperationLogsPage } from './pages/OperationLogsPage'
 import { openDatabase, closeDatabase, handleDatabaseError } from './services/database'
 import { initializeSessionManager, setOnSessionExpired } from './services/auth/session-manager'
 import { useAuthStore } from './stores/auth-store'
 import { useStatisticsStore } from './stores/statistics-store'
 import { useAccountingStore } from './stores/accounting-store'
 import { useBudgetStore } from './stores/budget-store'
+
+const InvoiceScanForm = lazy(async () => {
+  const m = await import('./components/accounting/InvoiceScanForm')
+  return { default: m.InvoiceScanForm }
+})
+const VoiceInputForm = lazy(async () => {
+  const m = await import('./components/accounting/VoiceInputForm')
+  return { default: m.VoiceInputForm }
+})
+const StatisticsPage = lazy(async () => {
+  const m = await import('./pages/StatisticsPage')
+  return { default: m.StatisticsPage }
+})
+const BudgetPage = lazy(async () => {
+  const m = await import('./pages/BudgetPage')
+  return { default: m.BudgetPage }
+})
+const MergePage = lazy(async () => {
+  const m = await import('./pages/MergePage')
+  return { default: m.MergePage }
+})
+const DataManagementPage = lazy(async () => {
+  const m = await import('./pages/DataManagementPage')
+  return { default: m.DataManagementPage }
+})
+const OperationLogsPage = lazy(async () => {
+  const m = await import('./pages/OperationLogsPage')
+  return { default: m.OperationLogsPage }
+})
+
+function PageFallback() {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 6 }}>
+      <CircularProgress />
+    </Box>
+  )
+}
 
 function App() {
   const { checkPasswordStatus, checkAuthStatus, isPasswordSet, isAuthenticated } = useAuthStore()
@@ -172,7 +202,9 @@ function App() {
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
                     <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
-                      <InvoiceScanForm />
+                      <Suspense fallback={<PageFallback />}>
+                        <InvoiceScanForm />
+                      </Suspense>
                     </Container>
                   </Box>
                 </ProtectedRoute>
@@ -185,7 +217,9 @@ function App() {
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
                     <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
-                      <VoiceInputForm />
+                      <Suspense fallback={<PageFallback />}>
+                        <VoiceInputForm />
+                      </Suspense>
                     </Container>
                   </Box>
                 </ProtectedRoute>
@@ -210,7 +244,9 @@ function App() {
                 <ProtectedRoute>
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
-                    <StatisticsPage />
+                    <Suspense fallback={<PageFallback />}>
+                      <StatisticsPage />
+                    </Suspense>
                   </Box>
                 </ProtectedRoute>
               }
@@ -221,7 +257,9 @@ function App() {
                 <ProtectedRoute>
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
-                    <BudgetPage />
+                    <Suspense fallback={<PageFallback />}>
+                      <BudgetPage />
+                    </Suspense>
                   </Box>
                 </ProtectedRoute>
               }
@@ -232,7 +270,9 @@ function App() {
                 <ProtectedRoute>
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
-                    <MergePage />
+                    <Suspense fallback={<PageFallback />}>
+                      <MergePage />
+                    </Suspense>
                   </Box>
                 </ProtectedRoute>
               }
@@ -243,7 +283,9 @@ function App() {
                 <ProtectedRoute>
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
-                    <DataManagementPage />
+                    <Suspense fallback={<PageFallback />}>
+                      <DataManagementPage />
+                    </Suspense>
                   </Box>
                 </ProtectedRoute>
               }
@@ -254,7 +296,9 @@ function App() {
                 <ProtectedRoute>
                   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <AppBar />
-                    <OperationLogsPage />
+                    <Suspense fallback={<PageFallback />}>
+                      <OperationLogsPage />
+                    </Suspense>
                   </Box>
                 </ProtectedRoute>
               }

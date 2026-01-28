@@ -66,8 +66,8 @@ export async function clearAllData(): Promise<void> {
   const db = await getDatabase()
   
   // Clear all object stores
-  const stores = ['accounts', 'budgets', 'categories']
-  
+  const stores = ['accounts', 'budgets', 'categories'] as const
+
   for (const storeName of stores) {
     const tx = db.transaction(storeName, 'readwrite')
     const store = tx.objectStore(storeName)

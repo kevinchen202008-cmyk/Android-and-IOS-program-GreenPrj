@@ -93,7 +93,7 @@ npm run test:ui
 **测试文档:**
 - [测试执行指南](./TEST_EXECUTION_GUIDE.md) - 详细的测试运行说明
 - [快速测试运行](./QUICK_TEST_RUN.md) - 一键运行指南
-- [测试自动化总结](../_bmad-output/automation-summary-epic3.md) - 测试覆盖总结
+- [测试自动化总结](../_bmad-output/automation-summary-epic3-2026-01-26--10.md) - 测试覆盖总结
 
 ### 手动测试
 

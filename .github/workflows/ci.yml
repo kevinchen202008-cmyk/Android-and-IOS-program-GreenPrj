@@ -41,7 +41,7 @@ jobs:
         run: npx vitest run --exclude "tests/e2e/**"
 
       - name: Build
-        run: npx vite build
+        run: npm run build
 
   e2e:
     runs-on: ubuntu-latest

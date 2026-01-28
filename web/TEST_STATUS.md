@@ -168,8 +168,8 @@ E2E测试需要开发服务器运行：
 
 - [测试执行指南](./TEST_EXECUTION_GUIDE.md) - 详细的测试运行说明
 - [快速测试运行](./QUICK_TEST_RUN.md) - 一键运行指南
-- [测试设计文档](../_bmad-output/test-design-epic-3.md) - 完整的测试设计
-- [测试自动化总结](../_bmad-output/automation-summary-epic3.md) - 测试覆盖总结
+- [测试设计文档](../_bmad-output/test-design-epic-3-2026-01-26--9.md) - 完整的测试设计
+- [测试自动化总结](../_bmad-output/automation-summary-epic3-2026-01-26--10.md) - 测试覆盖总结
 
 ---
 

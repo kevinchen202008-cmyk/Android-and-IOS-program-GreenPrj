@@ -64,7 +64,8 @@ export class AccountEntryRepository {
       // If encryption fails (e.g., password not available), store unencrypted for MVP
       // TODO: Remove this fallback in production
       console.warn('Encryption not available, storing unencrypted:', error)
-      await db.put('accounts', entryData)
+      const toStore = { ...entryData, notes: entryData.notes ?? undefined }
+      await db.put('accounts', toStore)
       return entryData
     }
     return entryData
@@ -119,7 +120,7 @@ export class AccountEntryRepository {
     const entries: AccountEntrySchema[] = []
     for (const rawEntry of rawAll) {
       try {
-        if (rawEntry && 'encrypted' in rawEntry && 'salt' in rawEntry && 'iv' in rawEntry) {
+        if (typeof rawEntry === 'object' && rawEntry !== null && 'encrypted' in rawEntry && 'salt' in rawEntry && 'iv' in rawEntry) {
           const password = await getUserPassword()
           const enc = rawEntry as { encrypted: string; salt: string; iv: string }
           const decrypted = await decryptData(
@@ -176,7 +177,8 @@ export class AccountEntryRepository {
       await (await getDatabase()).put('accounts', encryptedEntry)
     } catch (error) {
       console.warn('Encryption not available, storing unencrypted:', error)
-      await (await getDatabase()).put('accounts', updated)
+      const toStore = { ...updated, notes: updated.notes ?? undefined }
+      await (await getDatabase()).put('accounts', toStore)
     }
     return updated
   }

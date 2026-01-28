@@ -57,7 +57,8 @@ export async function createBudget(input: CreateBudgetInput): Promise<BudgetSche
     return budgetData
   } catch (error) {
     console.warn('Encryption not available, storing unencrypted:', error) // MVP fallback
-    await db.put('budgets', budgetData)
+    const toStore = { ...budgetData, month: budgetData.month ?? undefined }
+    await db.put('budgets', toStore)
     return budgetData
   }
 }
@@ -267,7 +268,8 @@ export async function updateBudget(id: string, input: UpdateBudgetInput): Promis
     return updatedBudget
   } catch (error) {
     console.warn('Encryption not available, storing unencrypted:', error) // MVP fallback
-    await db.put('budgets', updatedBudget)
+    const toStore = { ...updatedBudget, month: updatedBudget.month ?? undefined }
+    await db.put('budgets', toStore)
     return updatedBudget
   }
 }

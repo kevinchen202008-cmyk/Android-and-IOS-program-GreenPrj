@@ -256,7 +256,7 @@ npx playwright install chromium
 - [详细测试执行报告](./TEST_EXECUTION_REPORT.md)
 - [测试状态报告](./TEST_STATUS.md)
 - [Epic 3 测试指南](./TESTING_EPIC3.md)
-- [测试自动化总结](../_bmad-output/automation-summary-epic3.md)
+- [测试自动化总结](../_bmad-output/automation-summary-epic3-2026-01-26--10.md)
 
 ---
 

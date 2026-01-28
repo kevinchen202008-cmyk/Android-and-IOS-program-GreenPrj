@@ -8,7 +8,7 @@ export interface BudgetSchema {
   id: string
   type: BudgetType
   year: number
-  month?: number // Only for monthly budgets
+  month?: number | null // Only for monthly budgets; null for yearly
   amount: number
   createdAt: string
   updatedAt: string

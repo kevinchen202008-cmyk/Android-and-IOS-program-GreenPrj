@@ -22,5 +22,18 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          mui: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+          charts: ['recharts'],
+          ocr: ['tesseract.js'],
+          db: ['idb'],
+          crypto: ['bcryptjs'],
+        },
+      },
+    },
   },
 })

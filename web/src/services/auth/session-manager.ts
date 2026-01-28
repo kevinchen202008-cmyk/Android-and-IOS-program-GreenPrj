@@ -14,8 +14,8 @@ export interface Session {
   expiresAt: number
 }
 
-let sessionTimeoutId: NodeJS.Timeout | null = null
-let sessionWarningId: NodeJS.Timeout | null = null
+let sessionTimeoutId: ReturnType<typeof setTimeout> | null = null
+let sessionWarningId: ReturnType<typeof setTimeout> | null = null
 let onSessionExpiredCallback: (() => void) | null = null
 let onSessionWarningCallback: (() => void) | null = null
 

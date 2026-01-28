@@ -24,8 +24,8 @@ status: 'in-progress'
 ### PRD Documents Found
 
 **Whole Documents:**
-- `prd.md` (33,790 bytes, 2026-01-26 17:19:21)
-- `product-brief-GreenPrj-2026-01-26.md` (17,246 bytes, 2026-01-26 16:32:29)
+- `prd-2026-01-26--2.md` (33,790 bytes, 2026-01-26 17:19:21)
+- `product-brief-GreenPrj-2026-01-26--1.md` (17,246 bytes, 2026-01-26 16:32:29)
 
 **Sharded Documents:**
 - None found
@@ -33,7 +33,7 @@ status: 'in-progress'
 ### Architecture Documents Found
 
 **Whole Documents:**
-- `architecture.md` (70,017 bytes, 2026-01-26 17:47:05)
+- `architecture-2026-01-26--4.md` (70,017 bytes, 2026-01-26 17:47:05)
 
 **Sharded Documents:**
 - None found
@@ -73,7 +73,7 @@ status: 'in-progress'
 **Document Status:**
 - ✅ All documents are whole (non-sharded) files
 - ✅ All documents are recent (all from 2026-01-26)
-- ✅ Multilingual support confirmed (epics.md + epics-zh.md)
+- ✅ Multilingual support confirmed (epics-2026-01-26--5.md + epics-zh-2026-01-26--6.md)
 
 ---
 

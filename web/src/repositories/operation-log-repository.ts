@@ -44,19 +44,19 @@ export class OperationLogRepository {
       const password = await getUserPassword()
       const encrypted = await encryptData(JSON.stringify(logData), password)
       
-      // Store encrypted data
+      // Store encrypted data (placeholders satisfy store schema; actual data in encrypted blob)
       const encryptedLog = {
         id,
         encrypted: encrypted.encrypted,
         salt: encrypted.salt,
         iv: encrypted.iv,
-        operation: undefined,
-        type: undefined,
-        content: undefined,
-        result: undefined,
+        operation: '',
+        type: '',
+        content: '',
+        result: 'success' as const,
         timestamp: now,
       }
-      await db.put('operationLogs', encryptedLog)
+      await db.put('operationLogs', encryptedLog as unknown as OperationLogSchema)
       return logData
     } catch (error) {
       console.warn('Encryption not available, storing unencrypted:', error)

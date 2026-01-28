@@ -238,7 +238,8 @@ export async function importFromCSV(content: string): Promise<CSVImportResult> {
     }
 
     try {
-      await createEntry(entryResult.entry!)
+      const e = entryResult.entry!
+      await createEntry({ ...e, notes: e.notes ?? undefined })
       result.imported++
     } catch (error) {
       result.errors.push(`第${i + 1}行: 导入失败 - ${error instanceof Error ? error.message : '未知错误'}`)

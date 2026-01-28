@@ -195,7 +195,7 @@ export async function importAccountBook(
                   amount: entry.amount,
                   date: entry.date,
                   category: entry.category,
-                  notes: entry.notes || null,
+                  notes: entry.notes ?? undefined,
                 })
                 result.imported++
               } catch (error) {
@@ -208,7 +208,7 @@ export async function importAccountBook(
                   amount: entry.amount,
                   date: entry.date,
                   category: entry.category,
-                  notes: entry.notes || null,
+                  notes: entry.notes ?? undefined,
                 })
                 result.imported++
               } catch (error) {
@@ -233,7 +233,7 @@ export async function importAccountBook(
             amount: entry.amount,
             date: entry.date,
             category: entry.category,
-            notes: entry.notes || null,
+            notes: entry.notes ?? undefined,
           })
           result.imported++
         } catch (error) {

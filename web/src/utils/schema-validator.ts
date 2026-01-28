@@ -88,7 +88,7 @@ export function validateAccountEntry(data: unknown): AccountEntrySchema {
     )
   }
 
-  return entry as AccountEntrySchema
+  return entry as unknown as AccountEntrySchema
 }
 
 /**
@@ -138,7 +138,7 @@ export function validateCategory(data: unknown): CategorySchema {
     )
   }
 
-  return category as CategorySchema
+  return category as unknown as CategorySchema
 }
 
 /**
@@ -208,7 +208,7 @@ export function validateBudget(data: unknown): BudgetSchema {
     )
   }
 
-  return budget as BudgetSchema
+  return budget as unknown as BudgetSchema
 }
 
 /**
@@ -255,7 +255,7 @@ export function validateOperationLog(data: unknown): OperationLogSchema {
     )
   }
 
-  return log as OperationLogSchema
+  return log as unknown as OperationLogSchema
 }
 
 /**
@@ -361,5 +361,5 @@ export function validateExportFormat(data: unknown): ExportFormatSchema {
     }
   })
 
-  return exportData as ExportFormatSchema
+  return exportData as unknown as ExportFormatSchema
 }

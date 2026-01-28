@@ -30,7 +30,7 @@ async function deriveKey(
   const key = await crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt: keySalt,
+      salt: keySalt as unknown as BufferSource,
       iterations: iterations,
       hash: 'SHA-256',
     },

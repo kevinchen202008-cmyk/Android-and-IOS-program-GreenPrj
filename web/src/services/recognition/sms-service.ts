@@ -49,6 +49,7 @@ const SMS_PATTERNS = [
     pattern: /消费.*?(\d+\.?\d*).*?元/,
     extract: (match: RegExpMatchArray) => ({
       amount: parseFloat(match[1]),
+      merchant: undefined as string | undefined,
     }),
   },
 ]
