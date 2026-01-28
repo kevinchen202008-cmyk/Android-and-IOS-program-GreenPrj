@@ -30,16 +30,16 @@
 
 ### 1.2 构建与体积优化（中）
 
-- [ ] 对路由或大依赖做 `manualChunks` / 动态 `import()`，缓解 chunk > 500KB 告警
-- [ ] 视需要配置 `build.chunkSizeWarningLimit` 或拆包策略
-- **产出**：首屏与懒加载更合理，构建告警可控
+- [x] 对路由或大依赖做 `manualChunks` / 动态 `import()`，缓解 chunk > 500KB 告警
+- [x] 视需要配置 `build.chunkSizeWarningLimit` 或拆包策略（`chunkSizeWarningLimit: 800` + 手工分包）
+- **产出**：首屏与懒加载更合理，构建告警可控（已通过 `npm run build` 验证）
 
 ### 1.3 文档补充（中）
 
-- [ ] **用户文档**：安装、首次使用、密码/备份/恢复、常见问题
-- [ ] **部署文档**：构建、环境变量、静态托管（如 Vercel/Netlify/GitHub Pages）
-- [ ] **开发者文档**：项目结构、脚本说明、测试与 CI、贡献约定（可复用 `web/tests/README.md`）
-- **产出**：`docs/` 下用户向与开发向文档可交付
+- [x] **用户文档**：安装、首次使用、密码/备份/恢复、常见问题（`docs/USER_GUIDE.md`）
+- [x] **部署文档**：构建、环境变量、静态托管（如 Vercel/Netlify/GitHub Pages）（`docs/DEPLOYMENT_WEB.md`）
+- [x] **开发者文档**：项目结构、脚本说明、测试与 CI、贡献约定（`docs/DEVELOPER_GUIDE.md`，引用 `web/tests/README.md` 等）
+- **产出**：`docs/` 下用户向与开发向文档可交付（已完成首版，可迭代更新）
 
 ### 1.4 安全与配置（中）
 
