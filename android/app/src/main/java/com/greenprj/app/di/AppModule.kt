@@ -3,6 +3,8 @@ package com.greenprj.app.di
 import android.content.Context
 import androidx.room.Room
 import com.greenprj.app.data.local.database.GreenPrjDatabase
+import com.greenprj.app.data.security.AuthManager
+import com.greenprj.app.data.security.AuthPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +27,17 @@ object AppModule {
             .addMigrations(*GreenPrjDatabase.MIGRATIONS)
             .fallbackToDestructiveMigration() // For development only - remove in production
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthPreferences(@ApplicationContext context: Context): AuthPreferences {
+        return AuthPreferences(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthManager(authPreferences: AuthPreferences): AuthManager {
+        return AuthManager(authPreferences)
     }
 }
