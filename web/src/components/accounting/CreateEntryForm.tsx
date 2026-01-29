@@ -30,7 +30,9 @@ export function CreateEntryForm() {
 
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
-  const [category, setCategory] = useState('')
+  // 默认类别设置为“餐饮”，以提升常见场景的录入效率，
+  // 也让表单在金额填写后即可满足基本校验条件
+  const [category, setCategory] = useState('food')
   const [notes, setNotes] = useState('')
   const [showPreview, setShowPreview] = useState(false)
 
@@ -39,12 +41,23 @@ export function CreateEntryForm() {
     clearError()
 
     try {
-      await createNewEntry({
+      const payload: {
+        amount: number
+        date: string
+        category: string
+        notes?: string
+      } = {
         amount: parseFloat(amount),
         date: new Date(date).toISOString(),
         category,
-        notes: notes || undefined,
-      })
+      }
+
+      // 仅在用户真的填写备注时才携带该字段，避免在调用方产生多余的 `notes: undefined`
+      if (notes.trim()) {
+        payload.notes = notes.trim()
+      }
+
+      await createNewEntry(payload)
 
       // Show success and reset form
       setAmount('')
