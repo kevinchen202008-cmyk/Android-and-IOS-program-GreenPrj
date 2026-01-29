@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.greenprj.app.data.local.database.GreenPrjDatabase
 import com.greenprj.app.data.security.AuthManager
 import com.greenprj.app.data.security.AuthPreferences
+import com.greenprj.app.data.security.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +38,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthManager(authPreferences: AuthPreferences): AuthManager {
-        return AuthManager(authPreferences)
+    fun provideSessionManager(@ApplicationContext context: Context): SessionManager {
+        return SessionManager(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthManager(
+        authPreferences: AuthPreferences,
+        sessionManager: SessionManager
+    ): AuthManager {
+        return AuthManager(authPreferences, sessionManager)
     }
 }

@@ -13,7 +13,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class AuthManager @Inject constructor(
-    private val authPreferences: AuthPreferences
+    private val authPreferences: AuthPreferences,
+    private val sessionManager: SessionManager
 ) {
 
     fun isPasswordSet(): Boolean = authPreferences.isPasswordSet()
@@ -30,6 +31,7 @@ class AuthManager @Inject constructor(
 
         val hash = PasswordHashService.hashPassword(password)
         authPreferences.setPasswordHash(hash)
+        // 设置密码本身不自动登录，仍需显式登录一次
         return SetupResult.Success
     }
 
@@ -46,10 +48,46 @@ class AuthManager @Inject constructor(
         }
 
         return if (isValid) {
+            sessionManager.markAuthenticated()
             LoginResult.Success
         } else {
             LoginResult.InvalidCredentials
         }
+    }
+
+    fun changePassword(
+        currentPassword: String,
+        newPassword: String,
+        confirmNewPassword: String
+    ): ChangePasswordResult {
+        val storedHash = authPreferences.getPasswordHash()
+        if (storedHash.isNullOrBlank()) {
+            return ChangePasswordResult.PasswordNotSet
+        }
+
+        val currentValid = try {
+            PasswordHashService.verifyPassword(currentPassword, storedHash)
+        } catch (e: SecurityException) {
+            return ChangePasswordResult.Error(e.message ?: "当前密码校验失败")
+        }
+
+        if (!currentValid) {
+            return ChangePasswordResult.InvalidCurrentPassword
+        }
+
+        val validation: PasswordValidationResult = validatePasswordStrength(newPassword)
+        if (!validation.isValid) {
+            return ChangePasswordResult.InvalidNewPassword(validation.errors)
+        }
+
+        if (!passwordsMatch(newPassword, confirmNewPassword)) {
+            return ChangePasswordResult.PasswordsDoNotMatch
+        }
+
+        val newHash = PasswordHashService.hashPassword(newPassword)
+        authPreferences.setPasswordHash(newHash)
+        sessionManager.markAuthenticated()
+        return ChangePasswordResult.Success
     }
 
     sealed interface SetupResult {
@@ -63,6 +101,15 @@ class AuthManager @Inject constructor(
         data object PasswordNotSet : LoginResult
         data object InvalidCredentials : LoginResult
         data class Error(val message: String) : LoginResult
+    }
+
+    sealed interface ChangePasswordResult {
+        data object Success : ChangePasswordResult
+        data object PasswordNotSet : ChangePasswordResult
+        data object InvalidCurrentPassword : ChangePasswordResult
+        data object PasswordsDoNotMatch : ChangePasswordResult
+        data class InvalidNewPassword(val errors: List<String>) : ChangePasswordResult
+        data class Error(val message: String) : ChangePasswordResult
     }
 }
 
