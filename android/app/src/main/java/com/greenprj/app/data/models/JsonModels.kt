@@ -14,19 +14,19 @@ import java.time.Instant
  */
 data class AccountEntryJson(
     @SerializedName("id")
-    val id: String,
+    val id: String? = null,
     @SerializedName("amount")
-    val amount: Double,
+    val amount: Double = 0.0,
     @SerializedName("date")
-    val date: String, // ISO 8601 format
+    val date: String? = null,
     @SerializedName("category")
-    val category: String,
+    val category: String? = null,
     @SerializedName("notes")
     val notes: String? = null,
     @SerializedName("createdAt")
-    val createdAt: String, // ISO 8601 format
+    val createdAt: String? = null,
     @SerializedName("updatedAt")
-    val updatedAt: String // ISO 8601 format
+    val updatedAt: String? = null
 )
 
 /**
@@ -50,19 +50,19 @@ data class CategoryJson(
  */
 data class BudgetJson(
     @SerializedName("id")
-    val id: String,
+    val id: String? = null,
     @SerializedName("type")
-    val type: String, // "monthly" or "yearly"
+    val type: String? = null,
     @SerializedName("amount")
-    val amount: Double,
+    val amount: Double = 0.0,
     @SerializedName("year")
-    val year: Int,
+    val year: Int? = null,
     @SerializedName("month")
-    val month: Int? = null, // Required for monthly, null for yearly
+    val month: Int? = null,
     @SerializedName("createdAt")
-    val createdAt: String, // ISO 8601 format
+    val createdAt: String? = null,
     @SerializedName("updatedAt")
-    val updatedAt: String // ISO 8601 format
+    val updatedAt: String? = null
 )
 
 /**
@@ -88,11 +88,11 @@ data class OperationLogJson(
  */
 data class ExportFormatJson(
     @SerializedName("version")
-    val version: String,
+    val version: String? = null,
     @SerializedName("exportedAt")
-    val exportedAt: String, // ISO 8601 format
+    val exportedAt: String? = null,
     @SerializedName("data")
-    val data: ExportDataJson
+    val data: ExportDataJson? = null
 )
 
 /**
@@ -100,11 +100,11 @@ data class ExportFormatJson(
  */
 data class ExportDataJson(
     @SerializedName("accounts")
-    val accounts: List<AccountEntryJson>,
+    val accounts: List<AccountEntryJson>? = null,
     @SerializedName("categories")
-    val categories: List<CategoryJson>,
+    val categories: List<CategoryJson>? = null,
     @SerializedName("budgets")
-    val budgets: List<BudgetJson>,
+    val budgets: List<BudgetJson>? = null,
     @SerializedName("operationLogs")
-    val operationLogs: List<OperationLogJson>
+    val operationLogs: List<OperationLogJson>? = null
 )

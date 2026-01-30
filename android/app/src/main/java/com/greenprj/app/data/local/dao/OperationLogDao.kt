@@ -29,6 +29,9 @@ interface OperationLogDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLog(log: OperationLogEntity)
 
+    @Query("SELECT COUNT(*) FROM operation_logs WHERE timestamp < :beforeTime")
+    suspend fun countLogsBefore(beforeTime: Instant): Int
+
     @Query("DELETE FROM operation_logs WHERE timestamp < :beforeTime")
     suspend fun deleteLogsBefore(beforeTime: Instant)
 

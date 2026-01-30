@@ -19,6 +19,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        // 多 dex 支持（大工程或 minSdk<21 时需开启）
+        multiDexEnabled = true
+
         // Enable schema export for Room migrations
         javaCompileOptions {
             annotationProcessorOptions {
@@ -52,6 +55,21 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
+    }
+
+    // 按 ABI 拆分 APK，开发时只编当前架构可加快构建（可选：仅保留 x86_64 以单 APK 跑模拟器）
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            // For faster development builds, only include the ABI of your test device/emulator.
+            // For example, "x86_64" for a standard emulator.
+            // Remember to include all required ABIs for release builds.
+            include("x86_64")
+            // include("x86_64", "armeabi-v7a", "arm64-v8a") // Keep this for release
+            isUniversalApk = false
+        }
     }
 }
 

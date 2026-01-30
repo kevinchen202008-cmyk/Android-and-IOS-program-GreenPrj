@@ -35,6 +35,18 @@
             android:name=".presentation.StatisticsActivity"
             android:exported="false"
             android:theme="@style/Theme.GreenPrj" />
+        <activity
+            android:name=".presentation.budget.BudgetActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GreenPrj" />
+        <activity
+            android:name=".presentation.merge.MergeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GreenPrj" />
+        <activity
+            android:name=".presentation.logs.OperationLogsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GreenPrj" />
     </application>
 
 </manifest>

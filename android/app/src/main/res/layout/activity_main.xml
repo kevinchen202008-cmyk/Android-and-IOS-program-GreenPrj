@@ -186,6 +186,36 @@
                 android:layout_height="wrap_content"
                 android:text="@string/go_to_statistics"
                 android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/goToBudgetButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/go_to_budget"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/goToMergeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/go_to_merge"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/goToOperationLogsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/go_to_operation_logs"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/offlineHintText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/offline_hint"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginTop="16dp" />
         </LinearLayout>
 
         <TextView

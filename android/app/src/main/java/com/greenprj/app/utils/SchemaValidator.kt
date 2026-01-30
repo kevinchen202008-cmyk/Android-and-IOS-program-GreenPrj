@@ -51,28 +51,27 @@ private fun isValidISODate(dateString: String): Boolean {
  * Validate AccountEntryJson
  */
 fun validateAccountEntry(data: AccountEntryJson) {
-    // Validate id
-    if (!isValidUUID(data.id)) {
+    val id = data.id ?: throw ValidationException("id is required", "id", null)
+    if (!isValidUUID(id)) {
         throw ValidationException("id must be a valid UUID", "id", data.id)
     }
 
-    // Validate amount
     if (data.amount <= 0) {
         throw ValidationException("amount must be a positive number", "amount", data.amount)
     }
 
-    // Validate date
-    if (!isValidISODate(data.date)) {
+    val date = data.date ?: throw ValidationException("date is required", "date", null)
+    if (!isValidISODate(date)) {
         throw ValidationException("date must be a valid ISO 8601 date string", "date", data.date)
     }
 
-    // Validate category
-    if (data.category.isBlank()) {
+    val category = data.category ?: throw ValidationException("category is required", "category", null)
+    if (category.isBlank()) {
         throw ValidationException("category must be a non-empty string", "category", data.category)
     }
 
-    // Validate createdAt
-    if (!isValidISODate(data.createdAt)) {
+    val createdAt = data.createdAt ?: throw ValidationException("createdAt is required", "createdAt", null)
+    if (!isValidISODate(createdAt)) {
         throw ValidationException(
             "createdAt must be a valid ISO 8601 date string",
             "createdAt",
@@ -80,8 +79,8 @@ fun validateAccountEntry(data: AccountEntryJson) {
         )
     }
 
-    // Validate updatedAt
-    if (!isValidISODate(data.updatedAt)) {
+    val updatedAt = data.updatedAt ?: throw ValidationException("updatedAt is required", "updatedAt", null)
+    if (!isValidISODate(updatedAt)) {
         throw ValidationException(
             "updatedAt must be a valid ISO 8601 date string",
             "updatedAt",
@@ -94,18 +93,18 @@ fun validateAccountEntry(data: AccountEntryJson) {
  * Validate CategoryJson
  */
 fun validateCategory(data: CategoryJson) {
-    // Validate id
-    if (!isValidUUID(data.id)) {
+    val id = data.id ?: throw ValidationException("id is required", "id", null)
+    if (!isValidUUID(id)) {
         throw ValidationException("id must be a valid UUID", "id", data.id)
     }
 
-    // Validate name
-    if (data.name.isBlank()) {
+    val name = data.name ?: throw ValidationException("name is required", "name", null)
+    if (name.isBlank()) {
         throw ValidationException("name must be a non-empty string", "name", data.name)
     }
 
-    // Validate createdAt
-    if (!isValidISODate(data.createdAt)) {
+    val createdAt = data.createdAt ?: throw ValidationException("createdAt is required", "createdAt", null)
+    if (!isValidISODate(createdAt)) {
         throw ValidationException(
             "createdAt must be a valid ISO 8601 date string",
             "createdAt",
@@ -118,42 +117,38 @@ fun validateCategory(data: CategoryJson) {
  * Validate BudgetJson
  */
 fun validateBudget(data: BudgetJson) {
-    // Validate id
-    if (!isValidUUID(data.id)) {
+    val id = data.id ?: throw ValidationException("id is required", "id", null)
+    if (!isValidUUID(id)) {
         throw ValidationException("id must be a valid UUID", "id", data.id)
     }
 
-    // Validate type
-    if (data.type != "monthly" && data.type != "yearly") {
+    val type = data.type ?: throw ValidationException("type is required", "type", null)
+    if (type != "monthly" && type != "yearly") {
         throw ValidationException("type must be 'monthly' or 'yearly'", "type", data.type)
     }
 
-    // Validate amount
     if (data.amount <= 0) {
         throw ValidationException("amount must be a positive number", "amount", data.amount)
     }
 
-    // Validate year
-    if (data.year < 2000) {
+    val year = data.year ?: throw ValidationException("year is required", "year", null)
+    if (year < 2000) {
         throw ValidationException("year must be >= 2000", "year", data.year)
     }
 
-    // Validate month
-    if (data.type == "monthly") {
-        if (data.month == null) {
-            throw ValidationException("month is required for monthly budget", "month", data.month)
-        }
-        if (data.month < 1 || data.month > 12) {
+    if (type == "monthly") {
+        val month = data.month ?: throw ValidationException("month is required for monthly budget", "month", null)
+        if (month < 1 || month > 12) {
             throw ValidationException("month must be between 1 and 12", "month", data.month)
         }
-    } else if (data.type == "yearly") {
+    } else if (type == "yearly") {
         if (data.month != null) {
             throw ValidationException("month must be null for yearly budget", "month", data.month)
         }
     }
 
-    // Validate createdAt
-    if (!isValidISODate(data.createdAt)) {
+    val createdAt = data.createdAt ?: throw ValidationException("createdAt is required", "createdAt", null)
+    if (!isValidISODate(createdAt)) {
         throw ValidationException(
             "createdAt must be a valid ISO 8601 date string",
             "createdAt",
@@ -161,8 +156,8 @@ fun validateBudget(data: BudgetJson) {
         )
     }
 
-    // Validate updatedAt
-    if (!isValidISODate(data.updatedAt)) {
+    val updatedAt = data.updatedAt ?: throw ValidationException("updatedAt is required", "updatedAt", null)
+    if (!isValidISODate(updatedAt)) {
         throw ValidationException(
             "updatedAt must be a valid ISO 8601 date string",
             "updatedAt",
@@ -175,28 +170,28 @@ fun validateBudget(data: BudgetJson) {
  * Validate OperationLogJson
  */
 fun validateOperationLog(data: OperationLogJson) {
-    // Validate id
-    if (!isValidUUID(data.id)) {
+    val id = data.id ?: throw ValidationException("id is required", "id", null)
+    if (!isValidUUID(id)) {
         throw ValidationException("id must be a valid UUID", "id", data.id)
     }
 
-    // Validate operation
-    if (data.operation.isBlank()) {
+    val operation = data.operation ?: throw ValidationException("operation is required", "operation", null)
+    if (operation.isBlank()) {
         throw ValidationException("operation must be a non-empty string", "operation", data.operation)
     }
 
-    // Validate type
-    if (data.type.isBlank()) {
+    val type = data.type ?: throw ValidationException("type is required", "type", null)
+    if (type.isBlank()) {
         throw ValidationException("type must be a non-empty string", "type", data.type)
     }
 
-    // Validate result
-    if (data.result != "success" && data.result != "failure") {
+    val result = data.result ?: throw ValidationException("result is required", "result", null)
+    if (result != "success" && result != "failure") {
         throw ValidationException("result must be 'success' or 'failure'", "result", data.result)
     }
 
-    // Validate timestamp
-    if (!isValidISODate(data.timestamp)) {
+    val timestamp = data.timestamp ?: throw ValidationException("timestamp is required", "timestamp", null)
+    if (!isValidISODate(timestamp)) {
         throw ValidationException(
             "timestamp must be a valid ISO 8601 date string",
             "timestamp",
@@ -209,13 +204,13 @@ fun validateOperationLog(data: OperationLogJson) {
  * Validate ExportFormatJson
  */
 fun validateExportFormat(data: ExportFormatJson) {
-    // Validate version
-    if (data.version.isBlank()) {
+    val version = data.version ?: throw ValidationException("version is required", "version", null)
+    if (version.isBlank()) {
         throw ValidationException("version must be a non-empty string", "version", data.version)
     }
 
-    // Validate exportedAt
-    if (!isValidISODate(data.exportedAt)) {
+    val exportedAt = data.exportedAt ?: throw ValidationException("exportedAt is required", "exportedAt", null)
+    if (!isValidISODate(exportedAt)) {
         throw ValidationException(
             "exportedAt must be a valid ISO 8601 date string",
             "exportedAt",
@@ -223,8 +218,9 @@ fun validateExportFormat(data: ExportFormatJson) {
         )
     }
 
-    // Validate accounts
-    data.data.accounts.forEachIndexed { index, entry ->
+    val exportData = data.data ?: throw ValidationException("data is required", "data", null)
+
+    exportData.accounts?.forEachIndexed { index, entry ->
         try {
             validateAccountEntry(entry)
         } catch (e: ValidationException) {
@@ -236,8 +232,7 @@ fun validateExportFormat(data: ExportFormatJson) {
         }
     }
 
-    // Validate categories
-    data.data.categories.forEachIndexed { index, category ->
+    exportData.categories?.forEachIndexed { index, category ->
         try {
             validateCategory(category)
         } catch (e: ValidationException) {
@@ -249,8 +244,7 @@ fun validateExportFormat(data: ExportFormatJson) {
         }
     }
 
-    // Validate budgets
-    data.data.budgets.forEachIndexed { index, budget ->
+    exportData.budgets?.forEachIndexed { index, budget ->
         try {
             validateBudget(budget)
         } catch (e: ValidationException) {
@@ -262,8 +256,7 @@ fun validateExportFormat(data: ExportFormatJson) {
         }
     }
 
-    // Validate operationLogs
-    data.data.operationLogs.forEachIndexed { index, log ->
+    exportData.operationLogs?.forEachIndexed { index, log ->
         try {
             validateOperationLog(log)
         } catch (e: ValidationException) {

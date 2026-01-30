@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.GreenPrj" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <!-- NoActionBar：各页面在布局内自包含 Toolbar，避免出现双标题栏 -->
+    <style name="Theme.GreenPrj" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_dark</item>
         <item name="colorSecondary">@color/secondary</item>

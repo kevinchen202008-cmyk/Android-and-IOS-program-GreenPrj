@@ -31,6 +31,10 @@ interface AccountEntryDao {
     @Query("SELECT * FROM accounts WHERE date = :date ORDER BY date DESC")
     fun getEntriesByDate(date: LocalDateTime): Flow<List<AccountEntryEntity>>
 
+    /** Sum of amount for entries between start and end (inclusive). Returns 0 if no rows. */
+    @Query("SELECT COALESCE(SUM(amount), 0.0) FROM accounts WHERE date >= :start AND date <= :end")
+    suspend fun getTotalAmountBetween(start: LocalDateTime, end: LocalDateTime): Double
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEntry(entry: AccountEntryEntity)
 

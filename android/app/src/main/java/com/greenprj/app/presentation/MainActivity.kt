@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.greenprj.app.data.audit.AuditRepository
 import com.greenprj.app.data.security.AuthManager
 import com.greenprj.app.data.security.AuthManager.LoginResult
 import com.greenprj.app.data.security.AuthManager.SetupResult
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject
+    lateinit var auditRepository: AuditRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,12 +97,11 @@ class MainActivity : AppCompatActivity() {
             val password = binding.loginPasswordInput.text?.toString().orEmpty()
             when (val result = authManager.login(password)) {
                 is LoginResult.Success -> {
+                    auditRepository.logSuccess("登录", "LOGIN", "用户登录成功")
                     binding.authStatusText.text = "登录成功，欢迎使用 GreenPrj。"
                     binding.loginPasswordInput.text?.clear()
-                    // 登录成功后显示修改密码区域
                     binding.loginContainer.visibility = View.GONE
                     binding.changePasswordContainer.visibility = View.VISIBLE
-                    // 后续可以在这里导航到具体功能界面（记账 / 统计等）
                 }
 
                 is LoginResult.PasswordNotSet -> {
@@ -123,6 +126,7 @@ class MainActivity : AppCompatActivity() {
 
             when (val result = authManager.changePassword(current, newPassword, confirmNew)) {
                 is ChangePasswordResult.Success -> {
+                    auditRepository.logSuccess("修改密码", "CHANGE_PASSWORD", "密码修改成功")
                     binding.authStatusText.text = "密码修改成功。"
                     binding.currentPasswordInput.text?.clear()
                     binding.newPasswordInput.text?.clear()
@@ -166,6 +170,33 @@ class MainActivity : AppCompatActivity() {
         binding.goToStatisticsButton.setOnClickListener {
             if (authManager.isPasswordSet() && sessionManager.isSessionValid()) {
                 startActivity(Intent(this, StatisticsActivity::class.java))
+            } else {
+                binding.authStatusText.text = "会话已过期，请重新登录。"
+                setupAuthUi()
+            }
+        }
+
+        binding.goToBudgetButton.setOnClickListener {
+            if (authManager.isPasswordSet() && sessionManager.isSessionValid()) {
+                startActivity(Intent(this, com.greenprj.app.presentation.budget.BudgetActivity::class.java))
+            } else {
+                binding.authStatusText.text = "会话已过期，请重新登录。"
+                setupAuthUi()
+            }
+        }
+
+        binding.goToMergeButton.setOnClickListener {
+            if (authManager.isPasswordSet() && sessionManager.isSessionValid()) {
+                startActivity(Intent(this, com.greenprj.app.presentation.merge.MergeActivity::class.java))
+            } else {
+                binding.authStatusText.text = "会话已过期，请重新登录。"
+                setupAuthUi()
+            }
+        }
+
+        binding.goToOperationLogsButton.setOnClickListener {
+            if (authManager.isPasswordSet() && sessionManager.isSessionValid()) {
+                startActivity(Intent(this, com.greenprj.app.presentation.logs.OperationLogsActivity::class.java))
             } else {
                 binding.authStatusText.text = "会话已过期，请重新登录。"
                 setupAuthUi()
