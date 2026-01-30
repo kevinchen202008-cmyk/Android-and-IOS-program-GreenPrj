@@ -93,6 +93,9 @@ dependencies {
     // bcrypt for password hashing
     implementation("org.mindrot:jbcrypt:0.4")
 
+    // Charts (Epic 4.3 / 4.4)
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

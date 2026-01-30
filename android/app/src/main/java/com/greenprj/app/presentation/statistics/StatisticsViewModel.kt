@@ -53,10 +53,14 @@ data class CategoryStat(
     val percentage: Double
 )
 
-/** 统计页 UI 状态：周期内总金额、按类别排序的占比列表 */
+/** 趋势图数据点：标签、金额（供 BarChart 使用） */
+data class TrendPoint(val label: String, val value: Float)
+
+/** 统计页 UI 状态：周期内总金额、类别占比、趋势数据、是否为空 */
 data class StatisticsUiState(
     val totalAmount: Double,
     val categoryBreakdown: List<CategoryStat>,
+    val trendPoints: List<TrendPoint>,
     val period: StatisticsPeriod,
     val isEmpty: Boolean
 )
@@ -91,9 +95,11 @@ class StatisticsViewModel @Inject constructor(
         } else {
             emptyList()
         }
+        val trendPoints = buildTrendPoints(filtered, period)
         StatisticsUiState(
             totalAmount = total,
             categoryBreakdown = breakdown,
+            trendPoints = trendPoints,
             period = period,
             isEmpty = filtered.isEmpty()
         )
@@ -101,5 +107,38 @@ class StatisticsViewModel @Inject constructor(
 
     fun setPeriod(period: StatisticsPeriod) {
         selectedPeriod.value = period
+    }
+
+    private fun buildTrendPoints(filtered: List<AccountEntryEntity>, period: StatisticsPeriod): List<TrendPoint> {
+        val today = LocalDate.now()
+        return when (period) {
+            StatisticsPeriod.TODAY -> {
+                val sum = filtered.sumOf { it.amount }.toFloat()
+                listOf(TrendPoint("今日", sum))
+            }
+            StatisticsPeriod.WEEK -> {
+                val monday = today.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY))
+                val dayNames = listOf("周一", "周二", "周三", "周四", "周五", "周六", "周日")
+                val byDay = filtered.groupBy { it.date.toLocalDate() }.mapValues { (_, entries) -> entries.sumOf { it.amount }.toFloat() }
+                (0..6).map { i ->
+                    val d = monday.plusDays(i.toLong())
+                    TrendPoint(dayNames[i], byDay[d] ?: 0f)
+                }
+            }
+            StatisticsPeriod.MONTH -> {
+                val lastDay = today.with(TemporalAdjusters.lastDayOfMonth()).dayOfMonth
+                val byDay = filtered.groupBy { it.date.toLocalDate().dayOfMonth }.mapValues { (_, entries) -> entries.sumOf { it.amount }.toFloat() }
+                (1..lastDay).map { day ->
+                    TrendPoint("${day}日", byDay[day] ?: 0f)
+                }
+            }
+            StatisticsPeriod.YEAR -> {
+                val monthNames = (1..12).map { "${it}月" }
+                val byMonth = filtered.groupBy { it.date.toLocalDate().monthValue }.mapValues { (_, entries) -> entries.sumOf { it.amount }.toFloat() }
+                (1..12).map { month ->
+                    TrendPoint(monthNames[month - 1], byMonth[month] ?: 0f)
+                }
+            }
+        }
     }
 }
