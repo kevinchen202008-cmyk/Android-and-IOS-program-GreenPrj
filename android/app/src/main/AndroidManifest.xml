@@ -31,6 +31,10 @@
             android:name=".presentation.AccountingActivity"
             android:exported="false"
             android:theme="@style/Theme.GreenPrj" />
+        <activity
+            android:name=".presentation.StatisticsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GreenPrj" />
     </application>
 
 </manifest>

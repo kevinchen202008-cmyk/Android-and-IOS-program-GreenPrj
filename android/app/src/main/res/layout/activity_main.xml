@@ -179,6 +179,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/go_to_accounting"
                 android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/goToStatisticsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/go_to_statistics"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
 
         <TextView

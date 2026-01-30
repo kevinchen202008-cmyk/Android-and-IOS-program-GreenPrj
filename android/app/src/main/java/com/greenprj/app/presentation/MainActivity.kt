@@ -162,5 +162,14 @@ class MainActivity : AppCompatActivity() {
                 setupAuthUi()
             }
         }
+
+        binding.goToStatisticsButton.setOnClickListener {
+            if (authManager.isPasswordSet() && sessionManager.isSessionValid()) {
+                startActivity(Intent(this, StatisticsActivity::class.java))
+            } else {
+                binding.authStatusText.text = "会话已过期，请重新登录。"
+                setupAuthUi()
+            }
+        }
     }
 }

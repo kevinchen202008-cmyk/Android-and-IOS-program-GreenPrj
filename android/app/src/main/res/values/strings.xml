@@ -16,7 +16,18 @@
     <string name="filter_hint">搜索（备注/金额/类别）</string>
     <string name="filter_category_all">全部</string>
     <string name="filter_clear">清除筛选</string>
+    <string name="statistics_title">统计</string>
+    <string name="statistics_period">统计周期</string>
+    <string name="statistics_total">合计</string>
+    <string name="statistics_category_breakdown">类别占比</string>
+    <string name="statistics_empty">该周期暂无账目</string>
+    <string name="statistics_period_today">今日</string>
+    <string name="statistics_period_week">本周</string>
+    <string name="statistics_period_month">本月</string>
+    <string name="statistics_period_year">本年</string>
+    <string name="go_to_statistics">统计</string>
     <string name="go_to_accounting">进入记账</string>
     <string name="logout">退出登录</string>
     <string name="amount_display_format">¥ %.2f</string>
+    <string name="percent_format">%.1f%%</string>
 </resources>
