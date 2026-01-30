@@ -62,6 +62,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     // Lifecycle & ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -72,8 +73,8 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
-    // Room Database (version 2.8.4 as specified)
-    val roomVersion = "2.8.4"
+    // Room Database (version 2.6.1)
+    val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")

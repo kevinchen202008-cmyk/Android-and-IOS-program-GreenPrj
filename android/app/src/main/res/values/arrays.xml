@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 类别选项：与 Web 端 key 一致（food, transport, shopping, other） -->
+    <string-array name="category_keys">
+        <item>food</item>
+        <item>transport</item>
+        <item>shopping</item>
+        <item>other</item>
+    </string-array>
+    <string-array name="category_labels">
+        <item>餐饮</item>
+        <item>交通</item>
+        <item>购物</item>
+        <item>其他</item>
+    </string-array>
+</resources>

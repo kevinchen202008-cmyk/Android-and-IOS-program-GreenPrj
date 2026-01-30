@@ -1,5 +1,6 @@
 package com.greenprj.app.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupAuthUi()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 从记账页返回时若会话已过期，则回到登录态
         setupAuthUi()
     }
 
@@ -144,6 +151,15 @@ class MainActivity : AppCompatActivity() {
                 is ChangePasswordResult.Error -> {
                     binding.authStatusText.text = result.message
                 }
+            }
+        }
+
+        binding.goToAccountingButton.setOnClickListener {
+            if (authManager.isPasswordSet() && sessionManager.isSessionValid()) {
+                startActivity(Intent(this, AccountingActivity::class.java))
+            } else {
+                binding.authStatusText.text = "会话已过期，请重新登录。"
+                setupAuthUi()
             }
         }
     }

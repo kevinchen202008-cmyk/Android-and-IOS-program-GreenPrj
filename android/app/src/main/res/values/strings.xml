@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GreenPrj</string>
+    <string name="accounting_title">记账</string>
+    <string name="accounting_new_entry">新建账目</string>
+    <string name="amount_hint">金额</string>
+    <string name="date_hint">日期 (yyyy-MM-dd)</string>
+    <string name="notes_hint">备注（选填）</string>
+    <string name="confirm_entry">确认入账</string>
+    <string name="save_edit">保存修改</string>
+    <string name="delete_confirm_title">删除账目</string>
+    <string name="delete_confirm_message">确定删除这条账目？</string>
+    <string name="delete_confirm_ok">删除</string>
+    <string name="delete_confirm_cancel">取消</string>
+    <string name="accounting_list_title">账目列表</string>
+    <string name="go_to_accounting">进入记账</string>
+    <string name="logout">退出登录</string>
+    <string name="amount_display_format">¥ %.2f</string>
 </resources>
