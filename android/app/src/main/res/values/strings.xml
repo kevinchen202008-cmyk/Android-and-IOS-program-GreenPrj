@@ -13,6 +13,9 @@
     <string name="delete_confirm_ok">删除</string>
     <string name="delete_confirm_cancel">取消</string>
     <string name="accounting_list_title">账目列表</string>
+    <string name="filter_hint">搜索（备注/金额/类别）</string>
+    <string name="filter_category_all">全部</string>
+    <string name="filter_clear">清除筛选</string>
     <string name="go_to_accounting">进入记账</string>
     <string name="logout">退出登录</string>
     <string name="amount_display_format">¥ %.2f</string>

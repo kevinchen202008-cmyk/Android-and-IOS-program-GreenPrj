@@ -1,6 +1,9 @@
 package com.greenprj.app.presentation
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +19,7 @@ import com.greenprj.app.data.security.SessionManager
 import com.greenprj.app.databinding.ActivityAccountingBinding
 import com.greenprj.app.presentation.accounting.AccountingViewModel
 import com.greenprj.app.presentation.accounting.EntryAdapter
+import com.greenprj.app.presentation.accounting.FilterState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -75,14 +79,67 @@ class AccountingActivity : AppCompatActivity() {
             categoryLabels
         ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 
+        val filterCategoryLabels = arrayOf(getString(R.string.filter_category_all)) + categoryLabels
+        binding.filterCategorySpinner.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            filterCategoryLabels
+        ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+
+        binding.filterQueryInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                applyFilter()
+            }
+        })
+        binding.filterCategorySpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) = applyFilter()
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+        })
+        binding.filterClearButton.setOnClickListener {
+            viewModel.clearFilter()
+            binding.filterQueryInput.text?.clear()
+            binding.filterCategorySpinner.setSelection(0)
+            updateFilterHint(FilterState())
+        }
+
         binding.confirmEntryButton.setOnClickListener { submitForm(dateFormatter) }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.entries.collectLatest { list: List<AccountEntryEntity> ->
+                viewModel.filteredEntries.collectLatest { list: List<AccountEntryEntity> ->
                     entryAdapter.submitList(list)
                 }
             }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.currentFilter.collectLatest { filter ->
+                    updateFilterHint(filter)
+                }
+            }
+        }
+    }
+
+    private fun applyFilter() {
+        val query = binding.filterQueryInput.text?.toString()?.trim().orEmpty()
+        val pos = binding.filterCategorySpinner.selectedItemPosition
+        val category = if (pos <= 0) null else categoryKeys.getOrNull(pos - 1)
+        viewModel.setFilter(category, if (query.isEmpty()) null else query)
+    }
+
+    private fun updateFilterHint(filter: FilterState) {
+        val hasFilter = filter.category != null || !filter.query.isNullOrBlank()
+        binding.filterActiveHint.visibility = if (hasFilter) View.VISIBLE else View.GONE
+        if (hasFilter) {
+            val parts = mutableListOf<String>()
+            filter.category?.let { key ->
+                val label = categoryLabels.getOrNull(categoryKeys.indexOf(key)) ?: key
+                parts.add("类别=$label")
+            }
+            filter.query?.let { parts.add("关键词=$it") }
+            binding.filterActiveHint.text = "当前筛选: ${parts.joinToString(", ")}"
         }
     }
 
