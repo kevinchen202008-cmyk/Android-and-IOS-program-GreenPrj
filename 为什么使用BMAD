@@ -1,52 +1,5 @@
 # 🚀 为什么选择 BMAD？ (Why BMAD?)
 
-[![Methodology](https://img.shields.io)](https://github.com)
-[![Open Source](https://img.shields.io)](https://github.com)
-[![Documentation](https://img.shields.io)](https://docs.bmad-method.org)
+完整说明见文档：**[docs/为什么使用BMAD.md](docs/为什么使用BMAD.md)**。
 
-**BMAD** (Breakthrough Method for Agile AI-Driven Development) 是一套开源的、结构化的开发框架。它旨在将 AI 编程从零散的“氛围感编码”（Vibe Coding）提升为严谨的、生产级的工程化模式。
-
----
-
-## 🛠 核心支柱 (Core Pillars)
-
-### 1. 工程化严谨性 vs "氛围感编码"
-传统的 AI 提示词往往导致架构偏移。BMAD 强制执行 **PRD 优先** 和 **架构优先** 的工作流，确保 AI 在编写代码前先理解“为什么”和“怎么做”，而非盲目盲猜。
-
-### 2. 专项 AI 代理集群 (Multi-Agent Swarm)
-BMAD 将开发任务分配给 **12+ 个专项 AI 角色**，模拟真实的专业开发团队：
-*   **产品经理 & 分析师 (PM/Analyst)**：细化需求。
-*   **架构师 (Architect)**：定义技术栈、数据模型和系统图。
-*   **Scrum Master**：将大需求拆解为可落地的 Story。
-*   **开发者 & 测试 (Developer/QA)**：实现代码并对照 PRD 进行验证。
-
-### 3. 上下文分片 (Context Sharding)
-为了解决大型项目中 AI 的“上下文崩溃”和幻觉问题，BMAD 将项目 **“分片”** 为独立的小型开发单元（Stories）。这确保了 AI 在执行特定任务时，只接收最相关的上下文。
-
-### 4. 自适应规模流
-BMAD 会根据项目复杂度自动调整：
-*   **快速流 (Quick Flow)**：适用于 Bug 修复和小型更新。
-*   **完整流 (Full Flow)**：适用于复杂的大型企业级系统开发。
-
-### 5. 跨工具兼容性
-BMAD 基于 Markdown 和 YAML 构建，无缝适配所有主流 AI 开发工具：
-*   [Claude Code](https://github.com)
-*   [Cursor AI](https://www.cursor.com)
-*   [Windsurf](https://codeium.com)
-
----
-
-## 📈 核心价值
-
-*   **极速交付**：复杂功能的开发速度平均提升约 **55%**。
-*   **高质量代码**：通过架构预审和 QA 代理验证，显著减少技术债。
-*   **可审计性**：所有决策均有文件记录，符合企业级安全与合规要求。
-
----
-
-## 🔗 快速链接
-*   **GitHub 仓库**: [bmad-code-org/BMAD-METHOD](https://github.com)
-*   **官方文档**: [BMAD Documentation](https://docs.bmad-method.org)
-
----
-> *赋能开发者，通过 AI Agent 构建企业级软件。*
+包含：核心支柱与价值、BMAD 是什么、为什么选用、本项目落地方式、何时考虑使用、延伸阅读与快速链接。
