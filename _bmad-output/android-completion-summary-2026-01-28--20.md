@@ -26,7 +26,7 @@
    - `build.gradle.kts`中配置了Hilt插件和依赖
 
 3. ✅ **Room数据库基础设置**
-   - Room 2.8.4已配置
+   - Room 2.6.1已配置
    - `GreenPrjDatabase`已创建
    - 数据库版本管理已配置
    - 数据库通过Hilt注入
@@ -154,8 +154,8 @@ android/
 - ✅ `androidx.core:core-ktx:1.12.0`
 - ✅ `androidx.appcompat:appcompat:1.6.1`
 - ✅ `com.google.android.material:material:1.11.0`
-- ✅ `androidx.room:room-runtime:2.8.4`
-- ✅ `androidx.room:room-ktx:2.8.4`
+- ✅ `androidx.room:room-runtime:2.6.1`
+- ✅ `androidx.room:room-ktx:2.6.1`
 - ✅ `com.google.dagger:hilt-android:2.48`
 - ✅ `org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3`
 - ✅ `org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3`

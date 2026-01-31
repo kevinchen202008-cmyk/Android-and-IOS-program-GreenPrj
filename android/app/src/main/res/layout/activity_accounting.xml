@@ -40,6 +40,41 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="12dp">
+
+                <Button
+                    android:id="@+id/parseSmsButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/parse_sms"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_marginEnd="4dp" />
+
+                <Button
+                    android:id="@+id/voiceInputButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/voice_input"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_marginHorizontal="4dp" />
+
+                <Button
+                    android:id="@+id/scanInvoiceButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/scan_invoice"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
             <EditText
                 android:id="@+id/amountInput"
                 android:layout_width="match_parent"

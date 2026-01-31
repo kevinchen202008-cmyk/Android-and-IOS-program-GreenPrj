@@ -3,6 +3,15 @@
     <string name="app_name">GreenPrj</string>
     <string name="accounting_title">记账</string>
     <string name="accounting_new_entry">新建账目</string>
+    <string name="parse_sms">解析短信</string>
+    <string name="voice_input">语音输入</string>
+    <string name="scan_invoice">扫描发票</string>
+    <string name="sms_dialog_title">粘贴或输入短信内容</string>
+    <string name="sms_dialog_hint">粘贴消费通知短信，点击解析后自动填入金额等</string>
+    <string name="parse_button">解析</string>
+    <string name="permission_denied_camera">需要相机权限才能扫描发票，可在设置中开启</string>
+    <string name="permission_denied_mic">需要麦克风权限才能语音输入，可在设置中开启</string>
+    <string name="permission_denied_storage">需要存储权限才能选择图片，可在设置中开启</string>
     <string name="amount_hint">金额</string>
     <string name="date_hint">日期 (yyyy-MM-dd)</string>
     <string name="notes_hint">备注（选填）</string>

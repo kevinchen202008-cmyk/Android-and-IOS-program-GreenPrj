@@ -19,7 +19,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 ### Android Platform
 
 - **Language**: Kotlin
-- **Database**: Room 2.8.4 (latest stable, Nov 2025)
+- **Database**: Room 2.6.1 (latest stable, Nov 2025)
 - **Dependency Injection**: Hilt (Dagger for Android)
 - **Architecture**: Clean Architecture + MVVM
 - **UI Framework**: Material Design Components
@@ -49,7 +49,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 ### Critical Version Constraints
 
-- **Room**: Must use 2.8.4 or compatible version
+- **Room**: Must use 2.6.1 or compatible version
 - **IndexedDB**: Use idb library for Promise-based API
 - **bcrypt**: Cost factor must be 12 (Android: bcrypt-kotlin, Web: bcryptjs)
 - **PBKDF2**: Minimum 100,000 iterations for key derivation

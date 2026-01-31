@@ -1,11 +1,15 @@
 package com.greenprj.app.presentation
 
+import android.content.Intent
+import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +24,9 @@ import com.greenprj.app.databinding.ActivityAccountingBinding
 import com.greenprj.app.presentation.accounting.AccountingViewModel
 import com.greenprj.app.presentation.accounting.EntryAdapter
 import com.greenprj.app.presentation.accounting.FilterState
+import com.greenprj.app.utils.OcrHelper
+import com.greenprj.app.utils.SmsParseService
+import com.greenprj.app.utils.VoiceParseService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +35,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 /**
- * 记账界面：手动录入账目（金额、日期、类别、备注）并展示账目列表。
+ * 记账界面：手动录入、解析短信、语音输入、扫描发票（与 Web MVP 对齐），并展示账目列表。
  * 仅在有有效会话时由 MainActivity 启动；会话过期后需重新登录。
  */
 @AndroidEntryPoint
@@ -44,6 +51,48 @@ class AccountingActivity : AppCompatActivity() {
     private var categoryKeys: Array<String> = emptyArray()
     private var categoryLabels: Array<String> = emptyArray()
     private var editingEntryId: String? = null
+
+    private val requestRecordAudio = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) startVoiceInput() else Toast.makeText(this, getString(R.string.permission_denied_mic), Toast.LENGTH_SHORT).show()
+    }
+
+    private val pickImageForOcr = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            OcrHelper.recognizeFromUri(this, uri) { text ->
+                val result = OcrHelper.parseRecognizedText(text)
+                runOnUiThread {
+                    result.amount?.let { binding.amountInput.setText(it.toString()) }
+                    result.date?.let { binding.dateInput.setText(it) }
+                    result.notes?.let { binding.notesInput.setText(it) }
+                    if (result.amount != null || result.date != null || result.notes != null) {
+                        Toast.makeText(this, "已从图片识别并填入", Toast.LENGTH_SHORT).show()
+                    } else if (text.isNotBlank()) {
+                        binding.notesInput.setText(text.take(200))
+                        Toast.makeText(this, "未识别到金额，已填入文字", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "未能识别图片中的文字", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private val startVoiceForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode != android.app.Activity.RESULT_OK || result.data == null) return@registerForActivityResult
+        val data = result.data!!
+        val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+        val text = results?.firstOrNull()?.trim().orEmpty()
+        if (text.isEmpty()) return@registerForActivityResult
+        val parsed = VoiceParseService.parseVoiceText(text)
+        parsed.amount?.let { binding.amountInput.setText(it.toString()) }
+        parsed.category?.let { cat ->
+            val idx = categoryKeys.indexOf(cat).let { if (it >= 0) it else categoryKeys.indexOf("other").coerceAtLeast(0) }
+            binding.categorySpinner.setSelection(idx)
+        }
+        parsed.notes?.let { binding.notesInput.setText(it) }
+        if (parsed.notes == null && text.isNotBlank()) binding.notesInput.setText(text)
+        Toast.makeText(this, "已从语音解析并填入", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +154,10 @@ class AccountingActivity : AppCompatActivity() {
         }
 
         binding.confirmEntryButton.setOnClickListener { submitForm(dateFormatter) }
+
+        binding.parseSmsButton.setOnClickListener { showSmsParseDialog() }
+        binding.voiceInputButton.setOnClickListener { requestRecordAudio.launch(android.Manifest.permission.RECORD_AUDIO) }
+        binding.scanInvoiceButton.setOnClickListener { pickImageForOcr.launch("image/*") }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -222,5 +275,44 @@ class AccountingActivity : AppCompatActivity() {
             }
             .setNegativeButton(R.string.delete_confirm_cancel, null)
             .show()
+    }
+
+    private fun showSmsParseDialog() {
+        val edit = EditText(this).apply {
+            setHint(R.string.sms_dialog_hint)
+            minLines = 4
+            setPadding(48, 32, 48, 32)
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.sms_dialog_title)
+            .setView(edit)
+            .setPositiveButton(R.string.parse_button) { _, _ ->
+                val text = edit.text?.toString()?.trim().orEmpty()
+                if (text.isEmpty()) return@setPositiveButton
+                val result = SmsParseService.parseSms(text)
+                result.amount?.let { binding.amountInput.setText(it.toString()) }
+                result.date?.let { binding.dateInput.setText(it) }
+                result.category?.let { cat ->
+                    val idx = categoryKeys.indexOf(cat).let { if (it >= 0) it else categoryKeys.indexOf("other").coerceAtLeast(0) }
+                    binding.categorySpinner.setSelection(idx)
+                }
+                result.notes?.let { binding.notesInput.setText(it) }
+                Toast.makeText(this, "已解析并填入", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.delete_confirm_cancel, null)
+            .show()
+    }
+
+    private fun startVoiceInput() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "zh-CN")
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "请说出金额和类别，例如：吃饭 30 元")
+        }
+        try {
+            startVoiceForResult.launch(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "当前设备不支持语音识别", Toast.LENGTH_SHORT).show()
+        }
     }
 }

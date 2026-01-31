@@ -26,7 +26,7 @@
    - ✅ `build.gradle.kts`中配置了Hilt插件和依赖
 
 3. **Room数据库基础设置** ✅
-   - ✅ Room 2.8.4已配置
+   - ✅ Room 2.6.1已配置
    - ✅ `GreenPrjDatabase`已创建
    - ✅ 数据库版本管理已配置
    - ✅ 数据库通过Hilt注入

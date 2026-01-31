@@ -104,10 +104,15 @@ dependencies {
     // Charts (Epic 4.3 / 4.4)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+    // ML Kit Text Recognition（Play Services 版可解析；若需 bundled 可改用 com.google.mlkit:text-recognition 并配可解析版本）
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.48")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.48")
 }
 
 // Allow references to generated code

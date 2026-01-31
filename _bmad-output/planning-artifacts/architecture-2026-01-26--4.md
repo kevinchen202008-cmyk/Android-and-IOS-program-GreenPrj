@@ -451,7 +451,7 @@ git clone https://github.com/AmeenAhmed1/Android-Kotlin-Template.git greenprj-an
 
 **Critical Decisions (Block Implementation):**
 
-1. **数据架构**：Room 2.8.4 (Android) + IndexedDB 3.0 (Web)，数据库级AES-256-GCM加密
+1. **数据架构**：Room 2.6.1 (Android) + IndexedDB 3.0 (Web)，数据库级AES-256-GCM加密
 2. **认证与安全**：bcrypt密码哈希（cost factor 12），会话管理（30分钟超时）
 3. **数据模型**：领域驱动设计，版本化数据模型，统一JSON Schema
 
@@ -472,7 +472,7 @@ git clone https://github.com/AmeenAhmed1/Android-Kotlin-Template.git greenprj-an
 #### Database Technology & Versions
 
 **Android Platform:**
-- **Database**: Room 2.8.4 (最新稳定版，2025年11月)
+- **Database**: Room 2.6.1 (当前项目使用版本)
 - **Provided by Starter**: Android-Kotlin-Template已包含Room配置
 - **Rationale**: Room提供SQLite抽象层，编译时SQL验证，减少样板代码
 - **Affects**: 所有数据持久化操作
@@ -1716,7 +1716,7 @@ greenprj-web/
 ### Coherence Validation ✅
 
 **Decision Compatibility:**
-- ✅ **技术栈兼容性**: Room 2.8.4 (Android) + IndexedDB 3.0 (Web) 完全兼容
+- ✅ **技术栈兼容性**: Room 2.6.1 (Android) + IndexedDB 3.0 (Web) 完全兼容
 - ✅ **版本兼容性**: 所有技术版本已验证且相互兼容
 - ✅ **模式对齐**: 实现模式完全支持架构决策（命名、结构、通信模式）
 - ✅ **无矛盾决策**: 所有架构决策一致，无冲突
@@ -1932,7 +1932,7 @@ greenprj-web/
 
 **📚 AI Agent Implementation Guide**
 
-- Technology stack with verified versions (Room 2.8.4, IndexedDB 3.0, Vite, React, Material UI, etc.)
+- Technology stack with verified versions (Room 2.6.1, IndexedDB 3.0, Vite, React, Material UI, etc.)
 - Consistency rules that prevent implementation conflicts
 - Project structure with clear boundaries
 - Integration patterns and communication standards

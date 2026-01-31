@@ -140,7 +140,7 @@
 ## 构建配置验证
 
 ### build.gradle.kts ✅
-- ✅ Room版本：2.8.4
+- ✅ Room版本：2.6.1
 - ✅ Room运行时依赖
 - ✅ Room KTX依赖
 - ✅ Room编译器（kapt）

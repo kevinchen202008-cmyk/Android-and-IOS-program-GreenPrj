@@ -1,7 +1,7 @@
 # Test Automation Summary: Epic 3
 
 **Date:** 2026-01-26
-**Author:** TEA Agent
+**Author:** Auto
 **Epic:** Epic 3 - 核心记账功能
 
 ---

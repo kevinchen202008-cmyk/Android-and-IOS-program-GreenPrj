@@ -5,7 +5,7 @@ inputDocuments: ['product-brief-GreenPrj-2026-01-26.md']
 
 # UX Design Specification GreenPrj
 
-**Author:** Kevin
+**Author:** Auto
 **Date:** 2026-01-26
 
 ---

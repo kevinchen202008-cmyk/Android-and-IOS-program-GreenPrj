@@ -7,7 +7,7 @@ GreenPrj 个人记账应用 - Android平台
 - **语言**: Kotlin
 - **架构**: Clean Architecture + MVVM
 - **依赖注入**: Hilt (Dagger for Android)
-- **数据库**: Room 2.8.4
+- **数据库**: Room 2.6.1
 - **UI框架**: Material Design Components
 - **异步**: Kotlin Coroutines + Flow
 - **构建工具**: Gradle

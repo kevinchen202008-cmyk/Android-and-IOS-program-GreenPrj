@@ -1,7 +1,7 @@
 # Test Design: Epic 3 - 核心记账功能
 
 **Date:** 2026-01-26
-**Author:** Kevin (TEA Agent)
+**Author:** Auto
 **Status:** Draft
 
 ---

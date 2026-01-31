@@ -2,7 +2,7 @@
 stepsCompleted: [1, 2, 3, 4, 5]
 inputDocuments: []
 date: 2026-01-26
-author: Kevin
+author: Auto
 ---
 
 # Product Brief: GreenPrj
